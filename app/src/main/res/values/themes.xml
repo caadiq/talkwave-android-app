@@ -16,4 +16,17 @@
     </style>
 
     <style name="Theme.TalkWave" parent="Base.Theme.TalkWave" />
+
+    <style name="Style.BottomNavigationView.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:width">48dp</item>
+        <item name="android:height">48dp</item>
+        <item name="android:color">@color/secondary</item>
+        <item name="shapeAppearance">@style/Style.BottomNavigationView.ShapeAppearance</item>
+    </style>
+
+    <style name="Style.BottomNavigationView.ShapeAppearance" parent="">
+        <item name="cornerSize">16dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
 </resources>
