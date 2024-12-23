@@ -13,6 +13,8 @@
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="dark_gray">#464748</color>
+    <color name="dark_steel">#646E7E</color>
     <color name="steel_gray">#B6BEC8</color>
     <color name="soft_gray">#BEC1CD</color>
     <color name="pastel_blue">#D9E1EC</color>

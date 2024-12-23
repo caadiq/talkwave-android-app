@@ -13,6 +13,9 @@
         <item name="elevationOverlayEnabled">false</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:textColorHighlight">@color/colorPrimary</item>
+
+        <item name="android:fontFamily">@font/pretendard_medium </item>
+        <item name="android:textColor">@color/dark_gray</item>
     </style>
 
     <style name="Theme.TalkWave" parent="Base.Theme.TalkWave" />
