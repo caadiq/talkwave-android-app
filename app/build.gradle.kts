@@ -4,6 +4,8 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 fun getProperty(propertyKey: String): String {
@@ -66,4 +68,9 @@ dependencies {
 
     // google
     implementation(libs.material)
+
+    // hilt
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation)
+    ksp(libs.hilt.android.compiler)
 }
