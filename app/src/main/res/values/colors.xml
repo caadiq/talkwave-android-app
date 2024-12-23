@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">@color/primary</color> <!-- 주요 색상 -->
+    <color name="colorOnPrimary">@color/white</color> <!-- 주요 색상 위에 오는 요소들의 색상 -->
+    <color name="colorSecondary">@color/secondary</color> <!-- 보조 색상 -->
+    <color name="colorOnSecondary">@color/white</color> <!-- 보조 색상 위에 오는 요소들의 색상 -->
+    <color name="colorAccent">@color/white</color>
+    <color name="colorSurface">@color/white</color> <!-- 카드, 시트 등 UI 표면에 사용되는 색상 -->
+    <color name="colorSurfaceContainer">@color/white</color> <!-- 메뉴 색상 -->
+
+    <color name="primary">#081C34</color>
+    <color name="secondary">#6785FF</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="steel_gray">#B6BEC8</color>
+    <color name="soft_gray">#BEC1CD</color>
+    <color name="pastel_blue">#D9E1EC</color>
+    <color name="off_white">#F4F4FC</color>
+    <color name="light_gray">#EBEBEB</color>
 </resources>
