@@ -41,6 +41,7 @@
         android:maxLines="2"
         android:textColor="@color/dark_steel"
         android:textSize="14dp"
+        android:lineSpacingExtra="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
         app:layout_constraintEnd_toEndOf="@+id/txtTitle"
         app:layout_constraintStart_toStartOf="@+id/txtTitle"
