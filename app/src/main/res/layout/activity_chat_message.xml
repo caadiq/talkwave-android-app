@@ -72,6 +72,7 @@
         android:clipToPadding="false"
         android:paddingHorizontal="16dp"
         android:paddingTop="16dp"
+        app:stackFromEnd="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/editMessage"
         app:layout_constraintEnd_toEndOf="parent"
