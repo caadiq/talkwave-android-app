@@ -15,7 +15,14 @@ class ChatMessageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        setupView()
         setupRecyclerView()
+    }
+
+    private fun setupView() {
+        binding.imgMenu.setOnClickListener {
+            binding.drawerLayout.openDrawer(binding.navigationView)
+        }
     }
 
     private fun setupRecyclerView() {
