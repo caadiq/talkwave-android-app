@@ -7,10 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.talkwave.databinding.RowChatListBinding
 import com.app.talkwave.model.dto.ChatListDto
 import com.app.talkwave.view.diff.ChatListDiffUtil
-import com.app.talkwave.view.utils.DateTimeConverter.convertDate
-import com.app.talkwave.view.utils.DateTimeConverter.convertDateTime
 import com.app.talkwave.view.utils.DateTimeConverter.formatDateTime
-import java.util.Locale
 
 class ChatListAdapter : RecyclerView.Adapter<ChatListAdapter.ViewHolder>() {
     private var itemList = mutableListOf<ChatListDto>()

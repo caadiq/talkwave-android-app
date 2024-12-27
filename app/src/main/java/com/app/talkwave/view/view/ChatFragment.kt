@@ -1,5 +1,6 @@
 package com.app.talkwave.view.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -161,5 +162,9 @@ class ChatFragment : Fragment() {
                 )
             )
         )
+
+        chatListAdapter.setOnItemClickListener { item, _ ->
+            startActivity(Intent(requireContext(), ChatMessageActivity::class.java))
+        }
     }
 }

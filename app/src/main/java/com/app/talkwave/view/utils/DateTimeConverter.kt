@@ -35,4 +35,16 @@ object DateTimeConverter {
             else -> parsedDateTime.format(DateTimeFormatter.ofPattern("yy.MM.dd", Locale.getDefault()))
         }
     }
+
+    fun formatChatDateTime(dateTime: String): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        val parsedDateTime = LocalDateTime.parse(dateTime, formatter)
+        val now = LocalDateTime.now()
+
+        return when {
+            parsedDateTime.toLocalDate() == now.toLocalDate() -> parsedDateTime.format(DateTimeFormatter.ofPattern("a h:mm", Locale.getDefault()))
+            parsedDateTime.year == now.year -> parsedDateTime.format(DateTimeFormatter.ofPattern("M.dd", Locale.getDefault()))
+            else -> parsedDateTime.format(DateTimeFormatter.ofPattern("yy.MM.dd", Locale.getDefault()))
+        }
+    }
 }

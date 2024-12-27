@@ -18,6 +18,7 @@
     <color name="steel_gray">#B6BEC8</color>
     <color name="soft_gray">#BEC1CD</color>
     <color name="pastel_blue">#D9E1EC</color>
+    <color name="light_pastel_blue">#EDF0F9</color>
     <color name="off_white">#F4F4FC</color>
     <color name="light_gray">#EBEBEB</color>
 </resources>
