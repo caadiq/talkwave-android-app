@@ -10,7 +10,6 @@
 
     <color name="primary">#081C34</color>
     <color name="secondary">#6785FF</color>
-
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="dark_gray">#464748</color>
@@ -21,4 +20,5 @@
     <color name="light_pastel_blue">#EDF0F9</color>
     <color name="off_white">#F4F4FC</color>
     <color name="light_gray">#EBEBEB</color>
+    <color name="bright_green">#21ED51</color>
 </resources>
