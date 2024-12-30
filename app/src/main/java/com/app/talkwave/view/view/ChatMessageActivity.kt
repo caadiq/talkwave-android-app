@@ -23,6 +23,10 @@ class ChatMessageActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+
         binding.imgMenu.setOnClickListener {
             binding.drawerLayout.openDrawer(binding.navigationView)
         }
