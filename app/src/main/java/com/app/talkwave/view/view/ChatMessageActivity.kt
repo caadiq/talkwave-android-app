@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.app.talkwave.databinding.ActivityChatMessageBinding
 import com.app.talkwave.model.dto.ChatMessageDto
+import com.app.talkwave.model.dto.MemberListDto
 import com.app.talkwave.view.adapter.ChatMessageListAdapter
+import com.app.talkwave.view.adapter.MemberListAdapter
 
 class ChatMessageActivity : AppCompatActivity() {
     private val binding by lazy { ActivityChatMessageBinding.inflate(layoutInflater) }
 
     private lateinit var chatMessageListAdapter: ChatMessageListAdapter
+    private var memberListAdapter = MemberListAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,8 +30,9 @@ class ChatMessageActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         chatMessageListAdapter = ChatMessageListAdapter("user1")
-        binding.recyclerView.apply {
+        binding.recyclerMessages.apply {
             adapter = chatMessageListAdapter
+            itemAnimator = null
         }
 
         chatMessageListAdapter.setItemList(
@@ -211,6 +215,100 @@ class ChatMessageActivity : AppCompatActivity() {
             )
         )
 
-        binding.recyclerView.scrollToPosition(chatMessageListAdapter.itemCount - 1)
+        binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
+
+
+        binding.recyclerMembers.apply {
+            adapter = memberListAdapter
+            setHasFixedSize(true)
+            itemAnimator = null
+        }
+
+        memberListAdapter.setItemList(
+            listOf(
+                MemberListDto(
+                    userId = "user1",
+                    userName = "홍길동"
+                ),
+                MemberListDto(
+                    userId = "user2",
+                    userName = "김철수"
+                ),
+                MemberListDto(
+                    userId = "user3",
+                    userName = "이영희"
+                ),
+                MemberListDto(
+                    userId = "user4",
+                    userName = "박민수"
+                ),
+                MemberListDto(
+                    userId = "user5",
+                    userName = "이철민"
+                ),
+                MemberListDto(
+                    userId = "user6",
+                    userName = "김영수"
+                ),
+                MemberListDto(
+                    userId = "user7",
+                    userName = "박영희"
+                ),
+                MemberListDto(
+                    userId = "user8",
+                    userName = "이민수"
+                ),
+                MemberListDto(
+                    userId = "user9",
+                    userName = "김철민"
+                ),
+                MemberListDto(
+                    userId = "user10",
+                    userName = "박영수"
+                ),
+                MemberListDto(
+                    userId = "user11",
+                    userName = "이영희"
+                ),
+                MemberListDto(
+                    userId = "user12",
+                    userName = "김민수"
+                ),
+                MemberListDto(
+                    userId = "user13",
+                    userName = "박철민"
+                ),
+                MemberListDto(
+                    userId = "user14",
+                    userName = "이영수"
+                ),
+                MemberListDto(
+                    userId = "user15",
+                    userName = "김영희"
+                ),
+                MemberListDto(
+                    userId = "user16",
+                    userName = "박민수"
+                ),
+                MemberListDto(
+                    userId = "user17",
+                    userName = "이철민"
+                ),
+                MemberListDto(
+                    userId = "user18",
+                    userName = "김영수"
+                ),
+                MemberListDto(
+                    userId = "user19",
+                    userName = "박영희"
+                ),
+                MemberListDto(
+                    userId = "user20",
+                    userName = "이민수"
+                )
+            )
+        )
+
+        binding.txtMembers.text = memberListAdapter.itemCount.toString()
     }
 }
