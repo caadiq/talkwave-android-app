@@ -1,6 +1,10 @@
 package com.app.talkwave.view.view
 
 import android.os.Bundle
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.app.talkwave.databinding.ActivityChatMessageBinding
 import com.app.talkwave.model.dto.ChatMessageDto
@@ -14,9 +18,19 @@ class ChatMessageActivity : AppCompatActivity() {
     private lateinit var chatMessageListAdapter: ChatMessageListAdapter
     private var memberListAdapter = MemberListAdapter()
 
+    private val imm by lazy { getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager }
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            back()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
         setupView()
         setupRecyclerView()
@@ -24,11 +38,31 @@ class ChatMessageActivity : AppCompatActivity() {
 
     private fun setupView() {
         binding.btnBack.setOnClickListener {
-            finish()
+            back()
+        }
+
+        binding.imgSearch.setOnClickListener {
+            binding.layoutToolbar.visibility = View.GONE
+            binding.layoutSearchHeader.visibility = View.VISIBLE
+            binding.layoutSearchFooter.visibility = View.VISIBLE
+            binding.editSearch.requestFocus()
+            imm.showSoftInput(binding.editSearch, InputMethodManager.SHOW_IMPLICIT)
         }
 
         binding.imgMenu.setOnClickListener {
             binding.drawerLayout.openDrawer(binding.navigationView)
+        }
+
+        binding.editSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                // TODO: 메시지 검색
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
+
+        binding.imgClear.setOnClickListener {
+            binding.editSearch.text?.clear()
         }
     }
 
@@ -314,5 +348,18 @@ class ChatMessageActivity : AppCompatActivity() {
         )
 
         binding.txtMembers.text = memberListAdapter.itemCount.toString()
+    }
+
+    private fun back() {
+        if (binding.editSearch.isFocused) {
+            binding.editSearch.clearFocus()
+            binding.editSearch.text?.clear()
+            binding.layoutToolbar.visibility = View.VISIBLE
+            binding.layoutSearchHeader.visibility = View.GONE
+            binding.layoutSearchFooter.visibility = View.GONE
+            imm.hideSoftInputFromWindow(binding.editSearch.windowToken, 0)
+        } else {
+            finish()
+        }
     }
 }

@@ -27,47 +27,98 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="16dp"
-                android:tint="@color/dark_gray"
                 android:background="?actionBarItemBackground"
+                android:tint="@color/dark_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/icon_arrow_left" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/txtName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:text="방 이름"
-                android:textColor="@color/dark_steel"
-                android:textSize="18dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btnBack"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgMenu"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="20dp"
-                android:tint="@color/pastel_blue"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutToolbar"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btnBack"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/icon_menu" />
+                tools:visibility="visible">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgSearch"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="12dp"
-                android:padding="4dp"
-                android:tint="@color/pastel_blue"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/txtName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="방 이름"
+                    android:textColor="@color/dark_steel"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgMenu"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="20dp"
+                    android:tint="@color/pastel_blue"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/icon_menu" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgSearch"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="12dp"
+                    android:padding="4dp"
+                    android:tint="@color/pastel_blue"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imgMenu"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/icon_search" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutSearchHeader"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/imgMenu"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btnBack"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/icon_search" />
+                tools:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/editSearch"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:background="@null"
+                    android:hint="대화 내용 검색"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:textSize="18dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imgClear"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgClear"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:tint="@color/pastel_blue"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/icon_close" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -80,43 +131,105 @@
             android:paddingHorizontal="16dp"
             android:paddingTop="16dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/editMessage"
+            app:layout_constraintBottom_toTopOf="@+id/layoutFooter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
             app:stackFromEnd="true"
             tools:listitem="@layout/row_chat_message_you" />
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/editMessage"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutFooter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/rectangle_white_rounded_12dp"
-            android:hint="메시지 입력"
-            android:maxLines="5"
-            android:minHeight="48dp"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
-            android:textColor="@color/dark_gray"
-            android:textSize="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnSend"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btnSend"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="12dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/rectangle_secondary_rounded_12dp_ripple"
-            android:padding="16dp"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="@+id/editMessage"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/icon_arrow_up" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/editMessage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/rectangle_white_rounded_12dp"
+                    android:hint="메시지 입력"
+                    android:maxLines="5"
+                    android:minHeight="48dp"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnSend"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btnSend"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="12dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/rectangle_secondary_rounded_12dp_ripple"
+                    android:padding="16dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="@+id/editMessage"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/icon_arrow_up" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutSearchFooter"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:background="@color/primary"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btnSearchPrev"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/oval_secondary_ripple"
+                    android:padding="4dp"
+                    android:tint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btnSearchNext"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/icon_up" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btnSearchNext"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/oval_secondary_ripple"
+                    android:padding="4dp"
+                    android:tint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/icon_down" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
