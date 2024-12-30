@@ -20,6 +20,9 @@ class ChatMessageActivity : AppCompatActivity() {
 
     private val imm by lazy { getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager }
 
+    private var searchResults = mutableListOf<Int>()
+    private var currentSearchIndex = 0
+
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             back()
@@ -43,6 +46,7 @@ class ChatMessageActivity : AppCompatActivity() {
 
         binding.imgSearch.setOnClickListener {
             binding.layoutToolbar.visibility = View.GONE
+            binding.layoutMessage.visibility = View.GONE
             binding.layoutSearchHeader.visibility = View.VISIBLE
             binding.layoutSearchFooter.visibility = View.VISIBLE
             binding.editSearch.requestFocus()
@@ -55,7 +59,8 @@ class ChatMessageActivity : AppCompatActivity() {
 
         binding.editSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                // TODO: 메시지 검색
+                searchMessages(binding.editSearch.text.toString())
+                imm.hideSoftInputFromWindow(binding.editSearch.windowToken, 0)
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
@@ -64,10 +69,24 @@ class ChatMessageActivity : AppCompatActivity() {
         binding.imgClear.setOnClickListener {
             binding.editSearch.text?.clear()
         }
+
+        binding.btnSearchPrev.setOnClickListener {
+            if (searchResults.isNotEmpty()) {
+                currentSearchIndex = (currentSearchIndex - 1 + searchResults.size) % searchResults.size
+                scrollToSearchResult()
+            }
+        }
+
+        binding.btnSearchNext.setOnClickListener {
+            if (searchResults.isNotEmpty()) {
+                currentSearchIndex = (currentSearchIndex + 1) % searchResults.size
+                scrollToSearchResult()
+            }
+        }
     }
 
     private fun setupRecyclerView() {
-        chatMessageListAdapter = ChatMessageListAdapter("user1")
+        chatMessageListAdapter = ChatMessageListAdapter(this, "user1")
         binding.recyclerMessages.apply {
             adapter = chatMessageListAdapter
             itemAnimator = null
@@ -355,11 +374,52 @@ class ChatMessageActivity : AppCompatActivity() {
             binding.editSearch.clearFocus()
             binding.editSearch.text?.clear()
             binding.layoutToolbar.visibility = View.VISIBLE
+            binding.layoutMessage.visibility = View.VISIBLE
             binding.layoutSearchHeader.visibility = View.GONE
             binding.layoutSearchFooter.visibility = View.GONE
+            chatMessageListAdapter.setSearchQuery(null)
+            searchResults.clear()
+            currentSearchIndex = 0
             imm.hideSoftInputFromWindow(binding.editSearch.windowToken, 0)
         } else {
             finish()
+        }
+    }
+
+    private fun searchMessages(query: String) {
+        searchResults.clear()
+        currentSearchIndex = 0
+
+        chatMessageListAdapter.getItemList().forEachIndexed { index, chatMessageDto ->
+            if (chatMessageDto.message.contains(query, ignoreCase = true)) {
+                searchResults.add(index)
+            }
+        }
+        if (searchResults.isNotEmpty()) {
+            currentSearchIndex = searchResults.size - 1
+            chatMessageListAdapter.setSearchQuery(query)
+            scrollToSearchResult()
+        } else {
+            chatMessageListAdapter.setSearchQuery(null)
+        }
+
+        updateSearchButtons()
+    }
+
+    private fun scrollToSearchResult() {
+        binding.recyclerMessages.smoothScrollToPosition(searchResults[currentSearchIndex])
+        updateSearchButtons()
+    }
+
+    private fun updateSearchButtons() {
+        binding.btnSearchPrev.apply {
+            isEnabled = currentSearchIndex > 0
+            alpha = if (currentSearchIndex > 0) 1.0f else 0.5f
+        }
+
+        binding.btnSearchNext.apply {
+            isEnabled = currentSearchIndex < searchResults.size - 1
+            alpha = if (currentSearchIndex < searchResults.size - 1) 1.0f else 0.5f
         }
     }
 }

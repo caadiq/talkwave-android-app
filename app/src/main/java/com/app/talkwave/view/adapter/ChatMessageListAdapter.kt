@@ -1,17 +1,23 @@
 package com.app.talkwave.view.adapter
 
+import android.content.Context
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.BackgroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.app.talkwave.R
 import com.app.talkwave.databinding.RowChatMessageMeBinding
 import com.app.talkwave.databinding.RowChatMessageYouBinding
 import com.app.talkwave.model.dto.ChatMessageDto
 import com.app.talkwave.view.diff.ChatMessageListDiffUtil
 import com.app.talkwave.view.utils.DateTimeConverter.formatChatDateTime
 
-class ChatMessageListAdapter(private val userId: String?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatMessageListAdapter(private val context: Context, private val userId: String?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var itemList = mutableListOf<ChatMessageDto>()
+    private var searchQuery: String? = null
 
     companion object {
         private const val VIEW_TYPE_ME = 0
@@ -34,23 +40,23 @@ class ChatMessageListAdapter(private val userId: String?) : RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is MeViewHolder) {
-            holder.bind(itemList[position])
+            holder.bind(itemList[position], searchQuery)
         } else if (holder is YouViewHolder) {
-            holder.bind(itemList[position])
+            holder.bind(itemList[position], searchQuery)
         }
     }
 
     inner class MeViewHolder(private val binding: RowChatMessageMeBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ChatMessageDto) {
-            binding.txtMessage.text = item.message
+        fun bind(item: ChatMessageDto, query: String?) {
+            binding.txtMessage.text = highlightQuery(item.message, query)
             binding.txtDate.text = formatChatDateTime(item.date)
         }
     }
 
     inner class YouViewHolder(private val binding: RowChatMessageYouBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ChatMessageDto) {
+        fun bind(item: ChatMessageDto, query: String?) {
             binding.txtName.text = item.userName
-            binding.txtMessage.text = item.message
+            binding.txtMessage.text = highlightQuery(item.message, query)
             binding.txtDate.text = formatChatDateTime(item.date)
         }
     }
@@ -62,5 +68,29 @@ class ChatMessageListAdapter(private val userId: String?) : RecyclerView.Adapter
         itemList.clear()
         itemList.addAll(list)
         diffResult.dispatchUpdatesTo(this)
+    }
+
+    fun getItemList(): List<ChatMessageDto> = itemList
+
+    fun setSearchQuery(query: String?) {
+        searchQuery = query
+        notifyItemRangeChanged(0, itemCount)
+    }
+
+    private fun highlightQuery(text: String, query: String?): SpannableString {
+        val spannableString = SpannableString(text)
+        if (!query.isNullOrEmpty()) {
+            var startIndex = text.indexOf(query, ignoreCase = true)
+            while (startIndex >= 0) {
+                spannableString.setSpan(
+                    BackgroundColorSpan(context.resources.getColor(R.color.yellow, null)),
+                    startIndex,
+                    startIndex + query.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                startIndex = text.indexOf(query, startIndex + query.length, ignoreCase = true)
+            }
+        }
+        return spannableString
     }
 }
