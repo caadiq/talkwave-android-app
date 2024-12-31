@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +31,8 @@ class ChatMessageActivity : AppCompatActivity() {
 
     private var searchResults = mutableListOf<Int>()
     private var currentSearchIndex = 0
+
+    private val roomId by lazy { intent.getIntExtra("roomId", 0) }
 
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
@@ -66,7 +69,7 @@ class ChatMessageActivity : AppCompatActivity() {
     private fun setupChat() {
         stompClient.apply {
             connect()
-            subscribe(5) { chat ->
+            subscribe(roomId) { chat ->
                 chatViewModel.addMessage(chat)
             }
         }
@@ -92,6 +95,11 @@ class ChatMessageActivity : AppCompatActivity() {
 
         binding.editSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                if (binding.editSearch.text.toString().trim().isEmpty()) {
+                    Toast.makeText(this, "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                    return@setOnEditorActionListener true
+                }
+
                 searchMessages(binding.editSearch.text.toString())
                 imm.hideSoftInputFromWindow(binding.editSearch.windowToken, 0)
                 return@setOnEditorActionListener true
@@ -117,6 +125,16 @@ class ChatMessageActivity : AppCompatActivity() {
             }
         }
 
+        binding.btnExit.setOnClickListener {
+            DefaultDialog(
+                title = "채팅방 이름",
+                message = "채팅방을 나가시겠습니까?",
+                onConfirm = {
+                    // TODO: 채팅방 나가기
+                }
+            ).show(supportFragmentManager, "DefaultDialog")
+        }
+
         binding.btnSend.setOnClickListener {
             val message = binding.editMessage.text.toString()
 
@@ -126,7 +144,7 @@ class ChatMessageActivity : AppCompatActivity() {
 
             stompClient.sendMessage(
                 ChatMessageSendDto(
-                    roomId = 5,
+                    roomId = roomId,
                     userId = "caadiq",
                     message = message
                 )
@@ -136,7 +154,8 @@ class ChatMessageActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        chatMessageListAdapter = ChatMessageListAdapter(this, "user1")
+        chatMessageListAdapter = ChatMessageListAdapter(this, "caadiq")
+
         binding.recyclerMessages.apply {
             adapter = chatMessageListAdapter
             itemAnimator = null
@@ -147,14 +166,27 @@ class ChatMessageActivity : AppCompatActivity() {
             setHasFixedSize(true)
             itemAnimator = null
         }
-
-        binding.txtMembers.text = memberListAdapter.itemCount.toString()
     }
 
     private fun setupViewModel() {
-        chatViewModel.messageList.observe(this) {
-            chatMessageListAdapter.setItemList(it)
-            binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
+        chatViewModel.apply {
+            getChatRoom(roomId)
+
+            chatRoomName.observe(this@ChatMessageActivity) { roomName ->
+                binding.txtName.text = roomName
+            }
+
+            memberList.observe(this@ChatMessageActivity) { list ->
+                binding.txtMembers.text = memberListAdapter.itemCount.toString()
+                memberListAdapter.setItemList(list)
+            }
+
+            messageList.observe(this@ChatMessageActivity) { list ->
+                if (!list.isNullOrEmpty()) {
+                    chatMessageListAdapter.setItemList(list)
+                    binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
+                }
+            }
         }
     }
 
@@ -186,12 +218,14 @@ class ChatMessageActivity : AppCompatActivity() {
                 searchResults.add(index)
             }
         }
+
         if (searchResults.isNotEmpty()) {
             currentSearchIndex = searchResults.size - 1
             chatMessageListAdapter.setSearchQuery(query)
             scrollToSearchResult()
         } else {
             chatMessageListAdapter.setSearchQuery(null)
+            Toast.makeText(this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show()
         }
 
         updateSearchButtons()

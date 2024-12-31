@@ -36,9 +36,9 @@ class ChatListAdapter : RecyclerView.Adapter<ChatListAdapter.ViewHolder>() {
         }
 
         fun bind(item: ChatListDto) {
-            binding.txtTitle.text = item.title
-            binding.txtMessage.text = item.message
-            binding.txtDate.text = formatDateTime(item.date)
+            binding.txtTitle.text = item.roomName
+            binding.txtMessage.text = item.latestMessage
+            binding.txtDate.text = formatDateTime(item.sendDate)
         }
     }
 

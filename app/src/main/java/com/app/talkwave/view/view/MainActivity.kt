@@ -5,6 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.app.talkwave.R
 import com.app.talkwave.databinding.ActivityMainBinding
+import com.app.talkwave.viewmodel.ChatViewModel
 import com.app.talkwave.viewmodel.MainFragmentType
 import com.app.talkwave.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     private val mainViewModel: MainViewModel by viewModels()
+    private val chatViewModel: ChatViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         }
         setupBottomNavigation()
         setupViewModel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        chatViewModel.getRoomList()
     }
 
     private fun setupFragment() {

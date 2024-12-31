@@ -13,10 +13,10 @@ class ChatListDiffUtil(private val oldList: List<ChatListDto>, private val newLi
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].chatId == newList[newItemPosition].chatId
+        return oldList[oldItemPosition].roomId == newList[newItemPosition].roomId
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].chatId == newList[newItemPosition].chatId
+        return oldList[oldItemPosition] == newList[newItemPosition]
     }
 }

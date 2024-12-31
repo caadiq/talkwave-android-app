@@ -4,6 +4,8 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.time.temporal.ChronoField
 import java.util.Locale
 
 object DateTimeConverter {
@@ -20,7 +22,13 @@ object DateTimeConverter {
     }
 
     fun formatDateTime(dateTime: String): String {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        val formatter = DateTimeFormatterBuilder()
+            .appendPattern("yyyy-MM-dd'T'HH:mm:ss")
+            .optionalStart()
+            .appendFraction(ChronoField.MILLI_OF_SECOND, 1, 9, true)
+            .optionalEnd()
+            .toFormatter(Locale.getDefault())
+
         val parsedDateTime = LocalDateTime.parse(dateTime, formatter)
         val now = LocalDateTime.now()
         val duration = Duration.between(parsedDateTime, now)
@@ -37,7 +45,13 @@ object DateTimeConverter {
     }
 
     fun formatChatDateTime(dateTime: String): String {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        val formatter = DateTimeFormatterBuilder()
+            .appendPattern("yyyy-MM-dd'T'HH:mm:ss")
+            .optionalStart()
+            .appendFraction(ChronoField.MILLI_OF_SECOND, 1, 9, true)
+            .optionalEnd()
+            .toFormatter(Locale.getDefault())
+
         val parsedDateTime = LocalDateTime.parse(dateTime, formatter)
         val now = LocalDateTime.now()
 
