@@ -159,7 +159,9 @@ class ChatMessageActivity : AppCompatActivity() {
     }
 
     private fun back() {
-        if (binding.editSearch.isFocused) {
+        if (binding.navigationView.isShown) {
+            binding.drawerLayout.closeDrawer(binding.navigationView)
+        } else if (binding.editSearch.isFocused) {
             binding.editSearch.clearFocus()
             binding.editSearch.text?.clear()
             binding.layoutToolbar.visibility = View.VISIBLE
