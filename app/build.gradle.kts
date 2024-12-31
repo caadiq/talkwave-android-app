@@ -77,7 +77,7 @@ dependencies {
     // 기타
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
-    implementation(libs.stomp.protocol)
-    implementation(libs.rxJava)
-    implementation(libs.rxAndroid)
+    implementation(libs.stomp.protocol.android)
+    implementation(libs.rx.java)
+    implementation(libs.rx.android)
 }

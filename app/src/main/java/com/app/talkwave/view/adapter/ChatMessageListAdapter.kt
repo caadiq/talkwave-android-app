@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.talkwave.R
 import com.app.talkwave.databinding.RowChatMessageMeBinding
 import com.app.talkwave.databinding.RowChatMessageYouBinding
-import com.app.talkwave.model.dto.ChatMessageDto
+import com.app.talkwave.model.dto.ChatMessageReceiveDto
 import com.app.talkwave.view.diff.ChatMessageListDiffUtil
 import com.app.talkwave.view.utils.DateTimeConverter.formatChatDateTime
 
 class ChatMessageListAdapter(private val context: Context, private val userId: String?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var itemList = mutableListOf<ChatMessageDto>()
+    private var itemList = mutableListOf<ChatMessageReceiveDto>()
     private var searchQuery: String? = null
 
     companion object {
@@ -47,21 +47,21 @@ class ChatMessageListAdapter(private val context: Context, private val userId: S
     }
 
     inner class MeViewHolder(private val binding: RowChatMessageMeBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ChatMessageDto, query: String?) {
+        fun bind(item: ChatMessageReceiveDto, query: String?) {
             binding.txtMessage.text = highlightQuery(item.message, query)
-            binding.txtDate.text = formatChatDateTime(item.date)
+            binding.txtDate.text = formatChatDateTime(item.sendDate)
         }
     }
 
     inner class YouViewHolder(private val binding: RowChatMessageYouBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ChatMessageDto, query: String?) {
+        fun bind(item: ChatMessageReceiveDto, query: String?) {
             binding.txtName.text = item.userName
             binding.txtMessage.text = highlightQuery(item.message, query)
-            binding.txtDate.text = formatChatDateTime(item.date)
+            binding.txtDate.text = formatChatDateTime(item.sendDate)
         }
     }
 
-    fun setItemList(list: List<ChatMessageDto>) {
+    fun setItemList(list: List<ChatMessageReceiveDto>) {
         val diffCallback = ChatMessageListDiffUtil(itemList, list)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
 
@@ -70,7 +70,7 @@ class ChatMessageListAdapter(private val context: Context, private val userId: S
         diffResult.dispatchUpdatesTo(this)
     }
 
-    fun getItemList(): List<ChatMessageDto> = itemList
+    fun getItemList(): List<ChatMessageReceiveDto> = itemList
 
     fun setSearchQuery(query: String?) {
         searchQuery = query

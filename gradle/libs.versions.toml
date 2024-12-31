@@ -19,7 +19,7 @@ hilt = "2.52"
 hiltX = "1.2.0"
 
 retrofit = "2.11.0"
-stompProtocol = "1.6.6"
+stommpProtocol = "1.6.6"
 rxJava = "2.2.19"
 rxAndroid = "2.1.1"
 
@@ -45,9 +45,9 @@ hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-fragment", 
 # 기타
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
-stomp-protocol = { group = "com.github.NaikSoftware", name = "StompProtocolAndroid", version.ref = "stompProtocol" }
-rxJava = { group = "io.reactivex.rxjava2", name = "rxjava", version.ref = "rxJava" }
-rxAndroid = { group = "io.reactivex.rxjava2", name = "rxandroid", version.ref = "rxAndroid" }
+stomp-protocol-android = { group = "com.github.NaikSoftware", name = "StompProtocolAndroid", version.ref = "stommpProtocol" }
+rx-java = { group = "io.reactivex.rxjava2", name = "rxjava", version.ref = "rxJava" }
+rx-android = { group = "io.reactivex.rxjava2", name = "rxandroid", version.ref = "rxAndroid" }
 
 
 [plugins]

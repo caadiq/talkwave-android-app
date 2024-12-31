@@ -2,6 +2,8 @@ package com.app.talkwave.model.service
 
 import android.util.Log
 import com.app.talkwave.BuildConfig
+import com.app.talkwave.model.dto.ChatMessageReceiveDto
+import com.app.talkwave.model.dto.ChatMessageSendDto
 import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -11,12 +13,8 @@ import ua.naiksoftware.stomp.dto.LifecycleEvent
 
 class StompClient {
     private val baseUrl = BuildConfig.BASE_URL
-    private val wsUrl = baseUrl.replace("http", "ws").run {
-        if (this.endsWith("/"))
-            "${this}ws"
-        else
-            "${this}/ws"
-    }
+    private val wsUrl = "${baseUrl.replace("http", "ws")}/api/talkwave/ws-stomp"
+
     private val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, wsUrl)
 
     private var disposable: Disposable? = null
@@ -45,24 +43,26 @@ class StompClient {
         stompClient.disconnect()
     }
 
-//    fun sendMessage(roomId: Int, dto: ChatSendDto) {
-//        val gson = Gson()
-//        val chatRequestJson = gson.toJson(dto)
-//
-//        stompClient.send("/app/sendmessage/$roomId", chatRequestJson)
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe()
-//    }
-//
-//    fun subscribe(roomId: Int, callback: (ChatReceiveDto) -> Unit): Disposable {
-//        return stompClient.topic("/topic/public/$roomId")
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe { topicMessage ->
-//                val gson = Gson()
-//                val chatResponseDto = gson.fromJson(topicMessage.payload, ChatReceiveDto::class.java)
-//                callback(chatResponseDto)
-//            }
-//    }
+    fun sendMessage(dto: ChatMessageSendDto) {
+        val gson = Gson()
+        val requestBody = gson.toJson(dto)
+
+        stompClient.send("/send/message", requestBody)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
+    }
+
+    fun subscribe(roomId: Int, callback: (ChatMessageReceiveDto) -> Unit): Disposable {
+        return stompClient.topic("/room/$roomId")
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ message ->
+                val gson = Gson()
+                val dto = gson.fromJson(message.payload, ChatMessageReceiveDto::class.java)
+                callback(dto)
+            }, { error ->
+                Log.e("STOMP", "ERROR", error)
+            })
+    }
 }

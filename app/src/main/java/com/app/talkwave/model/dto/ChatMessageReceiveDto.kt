@@ -1,9 +1,9 @@
 package com.app.talkwave.model.dto
 
-class ChatMessageDto(
+class ChatMessageReceiveDto(
     val chatId: Int,
     val userId: String,
     val userName: String,
     val message: String,
-    val date: String
+    val sendDate: String
 )
