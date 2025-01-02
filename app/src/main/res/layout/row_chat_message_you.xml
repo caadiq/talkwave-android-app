@@ -6,12 +6,31 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/txtFirstMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:background="@drawable/rectangle_primary_rounded_16dp"
+        android:elevation="2dp"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2025년 1월 2일 목요일"
+        tools:visibility="visible" />
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imgProfile"
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtFirstMessage"
+        app:layout_goneMarginTop="0dp"
         app:srcCompat="@drawable/icon_profile2" />
 
     <androidx.appcompat.widget.AppCompatTextView

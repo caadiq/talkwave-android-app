@@ -13,6 +13,7 @@ import com.app.talkwave.model.dto.ChatMessageSendDto
 import com.app.talkwave.model.service.StompClient
 import com.app.talkwave.view.adapter.ChatMessageListAdapter
 import com.app.talkwave.view.adapter.MemberListAdapter
+import com.app.talkwave.view.utils.DateTimeConverter.convertDateTime
 import com.app.talkwave.viewmodel.ChatViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -181,8 +182,19 @@ class ChatMessageActivity : AppCompatActivity() {
                 memberListAdapter.setItemList(list)
             }
 
+
             messageList.observe(this@ChatMessageActivity) { list ->
                 if (!list.isNullOrEmpty()) {
+                    var lastDate: String? = null
+                    list.forEach { message ->
+                        val messageDate = convertDateTime(message.sendDate, "yyyy-MM-dd")
+                        if (messageDate != lastDate) {
+                            message.isFirstMessage = true
+                            lastDate = messageDate
+                        } else {
+                            message.isFirstMessage = false
+                        }
+                    }
                     chatMessageListAdapter.setItemList(list)
                     binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
                 }

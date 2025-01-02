@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.talkwave.databinding.RowChatListBinding
 import com.app.talkwave.model.dto.ChatListDto
 import com.app.talkwave.view.diff.ChatListDiffUtil
-import com.app.talkwave.view.utils.DateTimeConverter.formatDateTime
+import com.app.talkwave.view.utils.DateTimeConverter.formatChatRoomDateTime
 
 class ChatListAdapter : RecyclerView.Adapter<ChatListAdapter.ViewHolder>() {
     private var itemList = mutableListOf<ChatListDto>()
@@ -38,7 +38,7 @@ class ChatListAdapter : RecyclerView.Adapter<ChatListAdapter.ViewHolder>() {
         fun bind(item: ChatListDto) {
             binding.txtTitle.text = item.roomName
             binding.txtMessage.text = item.latestMessage
-            binding.txtDate.text = formatDateTime(item.sendDate)
+            binding.txtDate.text = formatChatRoomDateTime(item.sendDate)
         }
     }
 

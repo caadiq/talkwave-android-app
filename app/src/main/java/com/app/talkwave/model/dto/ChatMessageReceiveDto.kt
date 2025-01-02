@@ -1,8 +1,9 @@
 package com.app.talkwave.model.dto
 
-class ChatMessageReceiveDto(
+data class ChatMessageReceiveDto(
     val userId: String,
     val userName: String,
     val message: String,
-    val sendDate: String
+    val sendDate: String,
+    var isFirstMessage: Boolean = false
 )

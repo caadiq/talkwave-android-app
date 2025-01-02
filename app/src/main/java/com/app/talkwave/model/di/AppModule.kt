@@ -1,6 +1,7 @@
 package com.app.talkwave.model.di
 
 import com.app.talkwave.model.repository.ChatRepository
+import com.app.talkwave.model.repository.DeptRepository
 import com.app.talkwave.model.service.RetrofitService
 import dagger.Module
 import dagger.Provides
@@ -20,4 +21,8 @@ class AppModule {
     @Provides
     @Singleton
     fun provideChatRepository(retrofit: Retrofit): ChatRepository = ChatRepository(retrofit)
+
+    @Provides
+    @Singleton
+    fun provideDeptRepository(retrofit: Retrofit): DeptRepository = DeptRepository(retrofit)
 }

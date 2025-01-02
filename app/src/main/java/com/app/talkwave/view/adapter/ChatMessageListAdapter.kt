@@ -5,6 +5,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,7 @@ import com.app.talkwave.databinding.RowChatMessageMeBinding
 import com.app.talkwave.databinding.RowChatMessageYouBinding
 import com.app.talkwave.model.dto.ChatMessageReceiveDto
 import com.app.talkwave.view.diff.ChatMessageListDiffUtil
-import com.app.talkwave.view.utils.DateTimeConverter.formatChatDateTime
+import com.app.talkwave.view.utils.DateTimeConverter.convertDateTime
 
 class ChatMessageListAdapter(private val context: Context, private val userId: String?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var itemList = mutableListOf<ChatMessageReceiveDto>()
@@ -49,7 +50,11 @@ class ChatMessageListAdapter(private val context: Context, private val userId: S
     inner class MeViewHolder(private val binding: RowChatMessageMeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ChatMessageReceiveDto, query: String?) {
             binding.txtMessage.text = highlightQuery(item.message, query)
-            binding.txtDate.text = formatChatDateTime(item.sendDate)
+            binding.txtDate.text = convertDateTime(item.sendDate, "a h:mm")
+            binding.txtFirstMessage.apply {
+                visibility = if (item.isFirstMessage) View.VISIBLE else View.GONE
+                text = convertDateTime(item.sendDate, "yyyy년 M월 d일 E요일")
+            }
         }
     }
 
@@ -57,7 +62,11 @@ class ChatMessageListAdapter(private val context: Context, private val userId: S
         fun bind(item: ChatMessageReceiveDto, query: String?) {
             binding.txtName.text = item.userName
             binding.txtMessage.text = highlightQuery(item.message, query)
-            binding.txtDate.text = formatChatDateTime(item.sendDate)
+            binding.txtDate.text = convertDateTime(item.sendDate, "a h:mm")
+            binding.txtFirstMessage.apply {
+                visibility = if (item.isFirstMessage) View.VISIBLE else View.GONE
+                text = convertDateTime(item.sendDate, "yyyy년 M월 d일 E요일")
+            }
         }
     }
 
