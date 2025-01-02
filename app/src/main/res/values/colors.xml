@@ -8,8 +8,8 @@
     <color name="colorSurface">@color/white</color> <!-- 카드, 시트 등 UI 표면에 사용되는 색상 -->
     <color name="colorSurfaceContainer">@color/white</color> <!-- 메뉴 색상 -->
 
-    <color name="primary">#081C34</color>
-    <color name="secondary">#6785FF</color>
+    <color name="primary">#6785FF</color>
+    <color name="secondary">#081C34</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="dark_gray">#464748</color>
