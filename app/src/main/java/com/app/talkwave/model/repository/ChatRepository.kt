@@ -10,11 +10,11 @@ import javax.inject.Inject
 class ChatRepository @Inject constructor(retrofit: Retrofit)  {
     private val api: ChatApi = retrofit.create(ChatApi::class.java)
 
-    suspend fun getChatRooms(): RetrofitUtil.Results<List<ChatListDto>> {
-        return RetrofitUtil.call(api.getChatRooms())
+    suspend fun getChatRoomList(): RetrofitUtil.Results<List<ChatListDto>> {
+        return RetrofitUtil.call(api.getChatRoomList())
     }
 
-    suspend fun getChatMessages(roomId: Int): RetrofitUtil.Results<ChatRoomDto> {
-        return RetrofitUtil.call(api.getChatMessages(roomId))
+    suspend fun getChatMessageList(roomId: Int): RetrofitUtil.Results<ChatRoomDto> {
+        return RetrofitUtil.call(api.getChatMessageList(roomId))
     }
 }

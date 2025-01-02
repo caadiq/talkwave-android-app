@@ -9,8 +9,8 @@ import retrofit2.http.Path
 interface ChatApi {
 
     @GET("/api/talkwave/chat/rooms")
-    fun getChatRooms(): Call<List<ChatListDto>>
+    fun getChatRoomList(): Call<List<ChatListDto>>
 
     @GET("/api/talkwave/chat/rooms/{roomId}/messages")
-    fun getChatMessages(@Path("roomId") roomId: Int): Call<ChatRoomDto>
+    fun getChatMessageList(@Path("roomId") roomId: Int): Call<ChatRoomDto>
 }
