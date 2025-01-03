@@ -1,7 +1,6 @@
 package com.app.talkwave.view.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import com.app.talkwave.model.dto.ChatListDto
 import com.app.talkwave.model.dto.DeptListDto
 
 class DeptListDiffUtil(private val oldList: List<DeptListDto>, private val newList: List<DeptListDto>) : DiffUtil.Callback() {

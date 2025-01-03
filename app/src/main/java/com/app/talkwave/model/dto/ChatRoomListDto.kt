@@ -1,6 +1,6 @@
 package com.app.talkwave.model.dto
 
-data class ChatListDto(
+data class ChatRoomListDto(
     val roomId: Int,
     val roomName: String,
     val latestMessage: String,

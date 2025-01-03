@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.app.talkwave.databinding.FragmentChatBinding
-import com.app.talkwave.view.adapter.ChatListAdapter
+import com.app.talkwave.model.data.UserData
+import com.app.talkwave.view.adapter.ChatRoomListAdapter
 import com.app.talkwave.viewmodel.ChatViewModel
 
 class ChatFragment : Fragment() {
@@ -17,7 +18,7 @@ class ChatFragment : Fragment() {
 
     private val chatViewModel by activityViewModels<ChatViewModel>()
 
-    private val chatListAdapter = ChatListAdapter()
+    private val chatRoomListAdapter = ChatRoomListAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentChatBinding.inflate(inflater, container, false)
@@ -36,13 +37,21 @@ class ChatFragment : Fragment() {
         _binding = null
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            UserData.getUserId()?.let { chatViewModel.getRoomList(it) }
+        }
+    }
+
     private fun setupRecyclerView() {
         binding.recyclerView.apply {
-            adapter = chatListAdapter
+            adapter = chatRoomListAdapter
+            itemAnimator = null
             setHasFixedSize(true)
         }
 
-        chatListAdapter.setOnItemClickListener { item, _ ->
+        chatRoomListAdapter.setOnItemClickListener { item, _ ->
             val intent = Intent(requireContext(), ChatMessageActivity::class.java)
             intent.putExtra("roomId", item.roomId)
             startActivity(intent)
@@ -52,7 +61,7 @@ class ChatFragment : Fragment() {
     private fun setupViewModel() {
         chatViewModel.apply {
             roomList.observe(viewLifecycleOwner) { list ->
-                chatListAdapter.setItemList(list)
+                chatRoomListAdapter.setItemList(list)
             }
         }
     }

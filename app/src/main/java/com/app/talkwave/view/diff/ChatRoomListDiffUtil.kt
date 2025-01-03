@@ -1,9 +1,9 @@
 package com.app.talkwave.view.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import com.app.talkwave.model.dto.ChatListDto
+import com.app.talkwave.model.dto.ChatRoomListDto
 
-class ChatListDiffUtil(private val oldList: List<ChatListDto>, private val newList: List<ChatListDto>) : DiffUtil.Callback() {
+class ChatRoomListDiffUtil(private val oldList: List<ChatRoomListDto>, private val newList: List<ChatRoomListDto>) : DiffUtil.Callback() {
     override fun getOldListSize(): Int {
         return oldList.size
     }
@@ -13,7 +13,7 @@ class ChatListDiffUtil(private val oldList: List<ChatListDto>, private val newLi
     }
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].roomId == newList[newItemPosition].roomId
+        return oldList[oldItemPosition] == newList[newItemPosition]
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

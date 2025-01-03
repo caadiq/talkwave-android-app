@@ -1,7 +1,7 @@
 package com.app.talkwave.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.app.talkwave.model.dto.ChatListDto
+import com.app.talkwave.model.dto.ChatRoomListDto
 import com.app.talkwave.model.dto.ChatMessageReceiveDto
 import com.app.talkwave.model.dto.MemberListDto
 import com.app.talkwave.model.repository.ChatRepository
@@ -10,8 +10,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(private val repository: ChatRepository) : BaseViewModel() {
-    private val _roomList = MutableLiveData<List<ChatListDto>>()
-    val roomList: MutableLiveData<List<ChatListDto>> = _roomList
+    private val _roomList = MutableLiveData<List<ChatRoomListDto>>()
+    val roomList: MutableLiveData<List<ChatRoomListDto>> = _roomList
 
     private val _chatRoomName = MutableLiveData<String>()
     val chatRoomName: MutableLiveData<String> = _chatRoomName
@@ -22,9 +22,9 @@ class ChatViewModel @Inject constructor(private val repository: ChatRepository) 
     private val _messageList = MutableLiveData<MutableList<ChatMessageReceiveDto>>()
     val messageList: MutableLiveData<MutableList<ChatMessageReceiveDto>> = _messageList
 
-    fun getRoomList() {
+    fun getRoomList(userId: String) {
         execute(
-            call = { repository.getChatRoomList() },
+            call = { repository.getChatRoomList(userId) },
             onSuccess = { data -> _roomList.postValue(data) }
         )
     }

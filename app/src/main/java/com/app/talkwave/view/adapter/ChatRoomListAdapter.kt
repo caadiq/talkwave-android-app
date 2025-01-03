@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.app.talkwave.databinding.RowChatListBinding
-import com.app.talkwave.model.dto.ChatListDto
-import com.app.talkwave.view.diff.ChatListDiffUtil
+import com.app.talkwave.model.dto.ChatRoomListDto
+import com.app.talkwave.view.diff.ChatRoomListDiffUtil
 import com.app.talkwave.view.utils.DateTimeConverter.formatChatRoomDateTime
 
-class ChatListAdapter : RecyclerView.Adapter<ChatListAdapter.ViewHolder>() {
-    private var itemList = mutableListOf<ChatListDto>()
-    private var onItemClickListener: ((ChatListDto, Int) -> Unit)? = null
+class ChatRoomListAdapter : RecyclerView.Adapter<ChatRoomListAdapter.ViewHolder>() {
+    private var itemList = mutableListOf<ChatRoomListDto>()
+    private var onItemClickListener: ((ChatRoomListDto, Int) -> Unit)? = null
 
     override fun getItemCount(): Int = itemList.size
 
@@ -35,19 +35,19 @@ class ChatListAdapter : RecyclerView.Adapter<ChatListAdapter.ViewHolder>() {
             }
         }
 
-        fun bind(item: ChatListDto) {
+        fun bind(item: ChatRoomListDto) {
             binding.txtTitle.text = item.roomName
             binding.txtMessage.text = item.latestMessage
             binding.txtDate.text = formatChatRoomDateTime(item.sendDate)
         }
     }
 
-    fun setOnItemClickListener(listener: (ChatListDto, Int) -> Unit) {
+    fun setOnItemClickListener(listener: (ChatRoomListDto, Int) -> Unit) {
         onItemClickListener = listener
     }
 
-    fun setItemList(list: List<ChatListDto>) {
-        val diffCallBack = ChatListDiffUtil(itemList, list)
+    fun setItemList(list: List<ChatRoomListDto>) {
+        val diffCallBack = ChatRoomListDiffUtil(itemList, list)
         val diffResult = DiffUtil.calculateDiff(diffCallBack)
 
         itemList.clear()

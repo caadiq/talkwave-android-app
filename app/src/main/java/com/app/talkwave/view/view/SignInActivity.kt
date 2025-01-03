@@ -73,7 +73,7 @@ class SignInActivity : AppCompatActivity() {
     private fun setupViewModel() {
         authViewModel.apply {
             signIn.observe(this@SignInActivity) {
-                UserData.setUserData(binding.editId.text.toString(), binding.editPassword.text.toString())
+                UserData.setUserId(binding.editId.text.toString())
                 dataStoreViewModel.saveUserId(binding.editId.text.toString())
                 dataStoreViewModel.savePassword(binding.editPassword.text.toString())
                 startActivity(Intent(this@SignInActivity, MainActivity::class.java)).also { finish() }
@@ -111,13 +111,13 @@ class SignInActivity : AppCompatActivity() {
 
             if (!userId.isNullOrEmpty() && !password.isNullOrEmpty()) {
                 authViewModel.autoSignIn(userId, password)
+                UserData.setUserId(userId)
             } else {
                 splashScreen.setKeepOnScreenCondition { false }
             }
         }
 
         authViewModel.autoSignIn.observe(this) {
-            UserData.setUserData(binding.editId.text.toString(), binding.editPassword.text.toString())
             startActivity(Intent(this@SignInActivity, MainActivity::class.java)).also { finish() }
             splashScreen.setKeepOnScreenCondition { false }
         }

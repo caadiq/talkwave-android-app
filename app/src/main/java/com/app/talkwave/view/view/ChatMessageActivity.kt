@@ -144,13 +144,15 @@ class ChatMessageActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            stompClient.sendMessage(
-                ChatMessageSendDto(
-                    roomId = roomId,
-                    userId = "caadiq",
-                    message = message
+            UserData.getUserId()?.let {
+                stompClient.sendMessage(
+                    ChatMessageSendDto(
+                        roomId = roomId,
+                        userId = it,
+                        message = message
+                    )
                 )
-            )
+            }
             binding.editMessage.text?.clear()
         }
     }
@@ -182,7 +184,6 @@ class ChatMessageActivity : AppCompatActivity() {
                 binding.txtMembers.text = memberListAdapter.itemCount.toString()
                 memberListAdapter.setItemList(list)
             }
-
 
             messageList.observe(this@ChatMessageActivity) { list ->
                 if (!list.isNullOrEmpty()) {

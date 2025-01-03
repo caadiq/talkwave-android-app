@@ -146,7 +146,7 @@ class SignUpActivity : AppCompatActivity() {
             }
 
             signIn.observe(this@SignUpActivity) {
-                UserData.setUserData(binding.editId.text.toString(), binding.editPassword.text.toString())
+                UserData.setUserId(binding.editId.text.toString())
                 dataStoreViewModel.saveUserId(binding.editId.text.toString())
                 dataStoreViewModel.savePassword(binding.editPassword.text.toString())
             }
