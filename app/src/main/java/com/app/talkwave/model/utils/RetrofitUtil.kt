@@ -6,7 +6,7 @@ import retrofit2.awaitResponse
 object RetrofitUtil {
     sealed class Results<out T> {
         data class Success<out T>(val data: T) : Results<T>()
-        data class Error(val message: String) : Results<Nothing>()
+        data class Error(val statusCode: Int) : Results<Nothing>()
     }
 
     suspend fun <T> call(call: Call<T>): Results<T> {
@@ -15,10 +15,10 @@ object RetrofitUtil {
             if (response.isSuccessful) {
                 Results.Success(response.body()!!)
             } else {
-                Results.Error("${response.code()}: ${response.message()}")
+                Results.Error(response.code())
             }
         } catch (e: Exception) {
-            Results.Error(e.message ?: e.toString())
+            Results.Error(-1)
         }
     }
 }

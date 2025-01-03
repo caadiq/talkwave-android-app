@@ -66,6 +66,7 @@ class ChatMessageActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        chatViewModel.getChatRoom(roomId)
         setupChat()
     }
 
@@ -181,8 +182,6 @@ class ChatMessageActivity : AppCompatActivity() {
 
     private fun setupViewModel() {
         chatViewModel.apply {
-            getChatRoom(roomId)
-
             chatRoomName.observe(this@ChatMessageActivity) { roomName ->
                 binding.txtName.text = roomName
             }

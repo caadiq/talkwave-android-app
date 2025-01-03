@@ -79,9 +79,14 @@ class SignInActivity : AppCompatActivity() {
                 startActivity(Intent(this@SignInActivity, MainActivity::class.java)).also { finish() }
             }
 
-            errorMessage.observe(this@SignInActivity) { message ->
-                if (message != null)
-                    Toast.makeText(this@SignInActivity, message, Toast.LENGTH_SHORT).show()
+            errorCode.observe(this@SignInActivity) { code ->
+                if (code == null)
+                    return@observe
+
+                when (code) {
+                    401 -> Toast.makeText(this@SignInActivity, "아이디 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+                    else -> Toast.makeText(this@SignInActivity, "서버 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
