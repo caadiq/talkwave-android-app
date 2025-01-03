@@ -41,8 +41,12 @@ class SignInActivity : AppCompatActivity() {
             signIn()
         }
 
+        binding.txtSignUp.setOnClickListener {
+            startActivity(Intent(this, SignUpActivity::class.java)).also { finish() }
+        }
+
         binding.editId.apply {
-            setOnFocusChangeListener { v, hasFocus ->
+            setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     binding.inputId.error = null
                 }
@@ -54,7 +58,7 @@ class SignInActivity : AppCompatActivity() {
         }
 
         binding.editPassword.apply {
-            setOnFocusChangeListener { v, hasFocus ->
+            setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     binding.inputPassword.error = null
                 }
@@ -102,8 +106,8 @@ class SignInActivity : AppCompatActivity() {
         splashScreen.setKeepOnScreenCondition { true }
 
         lifecycleScope.launch {
-            val userId = dataStoreViewModel.userId.first()
-            val password = dataStoreViewModel.password.first()
+            val userId = dataStoreViewModel.userIdFlow.first()
+            val password = dataStoreViewModel.passwordFlow.first()
 
             if (!userId.isNullOrEmpty() && !password.isNullOrEmpty()) {
                 authViewModel.autoSignIn(userId, password)

@@ -16,6 +16,8 @@
 
         <item name="android:fontFamily">@font/pretendard_medium </item>
         <item name="android:textColor">@color/dark_gray</item>
+
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
     </style>
 
     <style name="Theme.TalkWave" parent="Base.Theme.TalkWave" />
@@ -30,6 +32,14 @@
     <style name="Style.BottomNavigationView.ShapeAppearance" parent="">
         <item name="cornerSize">12dp</item>
         <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/RoundedBackgroundBottomSheet</item>
+    </style>
+
+    <style name="RoundedBackgroundBottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rectangle_white_top_rounded_24dp</item>
     </style>
 
 </resources>

@@ -23,6 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.view.SignUpActivity" />
         <activity android:name=".view.view.MainActivity" />
         <activity android:name=".view.view.ChatMessageActivity" />
     </application>
