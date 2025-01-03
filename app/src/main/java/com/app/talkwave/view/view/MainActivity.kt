@@ -14,8 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
-    private val mainViewModel: MainViewModel by viewModels()
-    private val chatViewModel: ChatViewModel by viewModels()
+    private val mainViewModel by viewModels<MainViewModel>()
+    private val chatViewModel by viewModels<ChatViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

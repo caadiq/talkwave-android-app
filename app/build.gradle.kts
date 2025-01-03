@@ -65,6 +65,9 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.livedata)
+    implementation(libs.androidx.splashscreen)
 
     // google
     implementation(libs.material)
