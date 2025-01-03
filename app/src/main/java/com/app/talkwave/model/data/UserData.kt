@@ -13,4 +13,12 @@ object UserData {
         this.userId = null
         this.password = null
     }
+
+    fun getUserId(): String? {
+        return userId
+    }
+
+    fun getPassword(): String? {
+        return password
+    }
 }

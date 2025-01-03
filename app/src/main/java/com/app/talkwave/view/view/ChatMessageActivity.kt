@@ -9,6 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.app.talkwave.databinding.ActivityChatMessageBinding
+import com.app.talkwave.model.data.UserData
 import com.app.talkwave.model.dto.ChatMessageSendDto
 import com.app.talkwave.model.service.StompClient
 import com.app.talkwave.view.adapter.ChatMessageListAdapter
@@ -155,7 +156,7 @@ class ChatMessageActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        chatMessageListAdapter = ChatMessageListAdapter(this, "caadiq")
+        chatMessageListAdapter = ChatMessageListAdapter(this, UserData.getUserId())
 
         binding.recyclerMessages.apply {
             adapter = chatMessageListAdapter
