@@ -1,8 +1,9 @@
 package com.app.talkwave.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.app.talkwave.model.dto.ChatRoomListDto
 import com.app.talkwave.model.dto.ChatMessageReceiveDto
+import com.app.talkwave.model.dto.ChatRoomLeaveDto
+import com.app.talkwave.model.dto.ChatRoomListDto
 import com.app.talkwave.model.dto.MemberListDto
 import com.app.talkwave.model.repository.ChatRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,9 @@ class ChatViewModel @Inject constructor(private val repository: ChatRepository) 
 
     private val _messageList = MutableLiveData<MutableList<ChatMessageReceiveDto>>()
     val messageList: MutableLiveData<MutableList<ChatMessageReceiveDto>> = _messageList
+
+    private val _leaveChatRoom = MutableLiveData<Unit>()
+    val leaveChatRoom: MutableLiveData<Unit> = _leaveChatRoom
 
     fun getRoomList(userId: String) {
         execute(
@@ -43,5 +47,12 @@ class ChatViewModel @Inject constructor(private val repository: ChatRepository) 
     fun addMessage(dto : ChatMessageReceiveDto) {
         _messageList.value?.add(dto)
         _messageList.postValue(_messageList.value)
+    }
+
+    fun leaveChatRoom(dto: ChatRoomLeaveDto) {
+        execute(
+            call = { repository.leaveChatRoom(dto) },
+            onSuccess = { _leaveChatRoom.postValue(it) }
+        )
     }
 }

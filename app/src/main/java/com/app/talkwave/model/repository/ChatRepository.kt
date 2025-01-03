@@ -3,6 +3,7 @@ package com.app.talkwave.model.repository
 import com.app.talkwave.model.api.ChatApi
 import com.app.talkwave.model.dto.ChatRoomListDto
 import com.app.talkwave.model.dto.ChatRoomDto
+import com.app.talkwave.model.dto.ChatRoomLeaveDto
 import com.app.talkwave.model.utils.RetrofitUtil
 import retrofit2.Retrofit
 import javax.inject.Inject
@@ -16,5 +17,9 @@ class ChatRepository @Inject constructor(retrofit: Retrofit)  {
 
     suspend fun getChatMessageList(roomId: Int): RetrofitUtil.Results<ChatRoomDto> {
         return RetrofitUtil.call(api.getChatMessageList(roomId))
+    }
+
+    suspend fun leaveChatRoom(dto: ChatRoomLeaveDto): RetrofitUtil.Results<Unit> {
+        return RetrofitUtil.call(api.leaveChatRoom(dto))
     }
 }

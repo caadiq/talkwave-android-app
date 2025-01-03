@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.app.talkwave.databinding.ActivityChatMessageBinding
 import com.app.talkwave.model.data.UserData
 import com.app.talkwave.model.dto.ChatMessageSendDto
+import com.app.talkwave.model.dto.ChatRoomLeaveDto
 import com.app.talkwave.model.service.StompClient
 import com.app.talkwave.view.adapter.ChatMessageListAdapter
 import com.app.talkwave.view.adapter.MemberListAdapter
@@ -129,10 +130,17 @@ class ChatMessageActivity : AppCompatActivity() {
 
         binding.btnExit.setOnClickListener {
             DefaultDialog(
-                title = "채팅방 이름",
+                title = binding.txtName.text.toString(),
                 message = "채팅방을 나가시겠습니까?",
                 onConfirm = {
-                    // TODO: 채팅방 나가기
+                    UserData.getUserId()?.let {
+                        chatViewModel.leaveChatRoom(
+                            ChatRoomLeaveDto(
+                                roomId = roomId,
+                                userId = it
+                            )
+                        )
+                    }
                 }
             ).show(supportFragmentManager, "DefaultDialog")
         }
@@ -167,7 +175,6 @@ class ChatMessageActivity : AppCompatActivity() {
 
         binding.recyclerMembers.apply {
             adapter = memberListAdapter
-            setHasFixedSize(true)
             itemAnimator = null
         }
     }
@@ -181,7 +188,7 @@ class ChatMessageActivity : AppCompatActivity() {
             }
 
             memberList.observe(this@ChatMessageActivity) { list ->
-                binding.txtMembers.text = memberListAdapter.itemCount.toString()
+                binding.txtMembers.text = list.size.toString()
                 memberListAdapter.setItemList(list)
             }
 
@@ -200,6 +207,10 @@ class ChatMessageActivity : AppCompatActivity() {
                     chatMessageListAdapter.setItemList(list)
                     binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
                 }
+            }
+
+            leaveChatRoom.observe(this@ChatMessageActivity) {
+                finish()
             }
         }
     }
