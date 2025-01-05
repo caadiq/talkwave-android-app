@@ -25,7 +25,7 @@
     <style name="Style.BottomNavigationView.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:width">48dp</item>
         <item name="android:height">48dp</item>
-        <item name="android:color">@color/secondary</item>
+        <item name="android:color">@color/primary</item>
         <item name="shapeAppearance">@style/Style.BottomNavigationView.ShapeAppearance</item>
     </style>
 
