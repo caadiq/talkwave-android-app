@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.app.talkwave.databinding.ActivityChatMessageBinding
 import com.app.talkwave.model.data.UserData
 import com.app.talkwave.model.dto.ChatMessageSendDto
@@ -34,6 +35,7 @@ class ChatMessageActivity : AppCompatActivity() {
 
     private var searchResults = mutableListOf<Int>()
     private var currentSearchIndex = 0
+    private var isAtBottom = true
 
     private val roomId by lazy { intent.getIntExtra("roomId", 0) }
 
@@ -172,6 +174,13 @@ class ChatMessageActivity : AppCompatActivity() {
         binding.recyclerMessages.apply {
             adapter = chatMessageListAdapter
             itemAnimator = null
+
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    isAtBottom = !recyclerView.canScrollVertically(1)
+                }
+            })
         }
 
         binding.recyclerMembers.apply {
@@ -204,7 +213,9 @@ class ChatMessageActivity : AppCompatActivity() {
                         }
                     }
                     chatMessageListAdapter.setItemList(list)
-                    binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
+                    if (isAtBottom) {
+                        binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
+                    }
                 }
             }
 
