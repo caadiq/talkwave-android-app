@@ -1,5 +1,6 @@
 package com.app.talkwave.model.api
 
+import com.app.talkwave.model.dto.ChatRoomAddDto
 import com.app.talkwave.model.dto.ChatRoomListDto
 import com.app.talkwave.model.dto.ChatRoomDto
 import com.app.talkwave.model.dto.ChatRoomLeaveDto
@@ -14,6 +15,9 @@ interface ChatApi {
 
     @GET("/api/talkwave/chat/rooms")
     fun getChatRoomList(@Query("userId") userId: String): Call<List<ChatRoomListDto>>
+
+    @POST("/api/talkwave/chat/rooms")
+    fun addChatRoom(@Body dto: ChatRoomAddDto): Call<Unit>
 
     @GET("/api/talkwave/chat/rooms/{roomId}/messages")
     fun getChatMessageList(@Path("roomId") roomId: Int): Call<ChatRoomDto>

@@ -28,6 +28,7 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupView()
         setupRecyclerView()
         setupViewModel()
     }
@@ -41,6 +42,12 @@ class ChatFragment : Fragment() {
         super.onHiddenChanged(hidden)
         if (!hidden) {
             UserData.getUserId()?.let { chatViewModel.getRoomList(it) }
+        }
+    }
+
+    private fun setupView() {
+        binding.imgAddChat.setOnClickListener {
+            startActivity(Intent(requireContext(), AddChatRoomActivity::class.java))
         }
     }
 

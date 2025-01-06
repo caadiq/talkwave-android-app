@@ -26,6 +26,7 @@
         <activity android:name=".view.view.SignUpActivity" />
         <activity android:name=".view.view.MainActivity" />
         <activity android:name=".view.view.ChatMessageActivity" />
+        <activity android:name=".view.view.AddChatRoomActivity" />
     </application>
 
 </manifest>

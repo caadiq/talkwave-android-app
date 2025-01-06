@@ -8,5 +8,6 @@ data class DeptListDto(
 
 data class UserInfoList(
     val userName: String,
-    val userId: String
+    val userId: String,
+    var selected: Boolean = false
 )
