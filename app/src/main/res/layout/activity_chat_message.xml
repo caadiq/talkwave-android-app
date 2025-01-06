@@ -12,6 +12,22 @@
         android:layout_height="match_parent"
         android:background="@color/light_pastel_blue">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabScrollDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/white"
+            android:contentDescription="아래로 스크롤"
+            android:src="@drawable/icon_down"
+            android:visibility="invisible"
+            app:elevation="2dp"
+            app:fabCustomSize="40dp"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerMessages"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:shapeAppearance="@style/Widget.Design.FloatingActionButton"
+            tools:visibility="visible" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutHeader"
             android:layout_width="0dp"

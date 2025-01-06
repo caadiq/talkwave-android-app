@@ -166,6 +166,10 @@ class ChatMessageActivity : AppCompatActivity() {
             }
             binding.editMessage.text?.clear()
         }
+
+        binding.fabScrollDown.setOnClickListener {
+            binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -179,6 +183,10 @@ class ChatMessageActivity : AppCompatActivity() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     isAtBottom = !recyclerView.canScrollVertically(1)
+                    if (recyclerView.canScrollVertically(1))
+                        binding.fabScrollDown.show()
+                    else
+                        binding.fabScrollDown.hide()
                 }
             })
         }
