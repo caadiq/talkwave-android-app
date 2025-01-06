@@ -1,5 +1,6 @@
 package com.app.talkwave.view.adapter
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.text.Spannable
 import android.text.SpannableString
@@ -19,6 +20,7 @@ import com.app.talkwave.view.utils.DateTimeConverter.convertDateTime
 class ChatMessageListAdapter(private val context: Context, private val userId: String?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var itemList = mutableListOf<ChatMessageReceiveDto>()
     private var searchQuery: String? = null
+    private var currentSearchPosition: Int? = null
 
     companion object {
         private const val VIEW_TYPE_ME = 0
@@ -41,31 +43,37 @@ class ChatMessageListAdapter(private val context: Context, private val userId: S
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is MeViewHolder) {
-            holder.bind(itemList[position], searchQuery)
+            holder.bind(itemList[position], searchQuery, position == currentSearchPosition)
         } else if (holder is YouViewHolder) {
-            holder.bind(itemList[position], searchQuery)
+            holder.bind(itemList[position], searchQuery, position == currentSearchPosition)
         }
     }
 
     inner class MeViewHolder(private val binding: RowChatMessageMeBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ChatMessageReceiveDto, query: String?) {
+        fun bind(item: ChatMessageReceiveDto, query: String?, isCurrentSearchPosition: Boolean) {
             binding.txtMessage.text = highlightQuery(item.message, query)
             binding.txtDate.text = convertDateTime(item.sendDate, "a h:mm")
             binding.txtFirstMessage.apply {
                 visibility = if (item.isFirstMessage) View.VISIBLE else View.GONE
                 text = convertDateTime(item.sendDate, "yyyy년 M월 d일 E요일")
             }
+            if (isCurrentSearchPosition) {
+                shakeView(binding.txtMessage)
+            }
         }
     }
 
     inner class YouViewHolder(private val binding: RowChatMessageYouBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: ChatMessageReceiveDto, query: String?) {
+        fun bind(item: ChatMessageReceiveDto, query: String?, isCurrentSearchPosition: Boolean) {
             binding.txtName.text = item.userName
             binding.txtMessage.text = highlightQuery(item.message, query)
             binding.txtDate.text = convertDateTime(item.sendDate, "a h:mm")
             binding.txtFirstMessage.apply {
                 visibility = if (item.isFirstMessage) View.VISIBLE else View.GONE
                 text = convertDateTime(item.sendDate, "yyyy년 M월 d일 E요일")
+            }
+            if (isCurrentSearchPosition) {
+                shakeView(binding.txtMessage)
             }
         }
     }
@@ -86,6 +94,11 @@ class ChatMessageListAdapter(private val context: Context, private val userId: S
         notifyItemRangeChanged(0, itemCount)
     }
 
+    fun setCurrentSearchPosition(position: Int?) {
+        currentSearchPosition = position
+        notifyItemRangeChanged(0, itemCount)
+    }
+
     private fun highlightQuery(text: String, query: String?): SpannableString {
         val spannableString = SpannableString(text)
         if (!query.isNullOrEmpty()) {
@@ -101,5 +114,11 @@ class ChatMessageListAdapter(private val context: Context, private val userId: S
             }
         }
         return spannableString
+    }
+
+    private fun shakeView(view: View) {
+        val animator = ObjectAnimator.ofFloat(view, "translationX", 0f, 25f, -25f, 25f, -25f, 15f, -15f, 6f, -6f, 0f)
+        animator.duration = 500
+        animator.start()
     }
 }

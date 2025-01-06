@@ -225,6 +225,7 @@ class ChatMessageActivity : AppCompatActivity() {
             binding.layoutSearchHeader.visibility = View.GONE
             binding.layoutSearchFooter.visibility = View.GONE
             chatMessageListAdapter.setSearchQuery(null)
+            chatMessageListAdapter.setCurrentSearchPosition(null)
             searchResults.clear()
             currentSearchIndex = 0
             imm.hideSoftInputFromWindow(binding.editSearch.windowToken, 0)
@@ -256,7 +257,9 @@ class ChatMessageActivity : AppCompatActivity() {
     }
 
     private fun scrollToSearchResult() {
-        binding.recyclerMessages.smoothScrollToPosition(searchResults[currentSearchIndex])
+        val position = searchResults[currentSearchIndex]
+        chatMessageListAdapter.setCurrentSearchPosition(position)
+        binding.recyclerMessages.scrollToPosition(position)
         updateSearchButtons()
     }
 
