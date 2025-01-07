@@ -36,4 +36,16 @@ class DataStoreModule(private val context: Context) {
             preferences[passwordKey]
         }
     }
+
+    suspend fun clearUserId() {
+        context.dataStore.edit { preferences ->
+            preferences.remove(userIdKey)
+        }
+    }
+
+    suspend fun clearPassword() {
+        context.dataStore.edit { preferences ->
+            preferences.remove(passwordKey)
+        }
+    }
 }

@@ -84,7 +84,7 @@ class SignInActivity : AppCompatActivity() {
                     return@observe
 
                 when (code) {
-                    401 -> Toast.makeText(this@SignInActivity, "아이디 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+                    400 -> Toast.makeText(this@SignInActivity, "아이디 또는 비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
                     else -> Toast.makeText(this@SignInActivity, "서버 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
                 }
             }

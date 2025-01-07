@@ -30,6 +30,18 @@ class DataStoreViewModel @Inject constructor(private val repository: DataStoreRe
         }
     }
 
+    fun clearUserId() {
+        viewModelScope.launch {
+            repository.clearUserId()
+        }
+    }
+
+    fun clearPassword() {
+        viewModelScope.launch {
+            repository.clearPassword()
+        }
+    }
+
     fun <A, B> combine(liveData1: LiveData<A>, liveData2: LiveData<B>): LiveData<Pair<A?, B?>> {
         return MediatorLiveData<Pair<A?, B?>>().apply {
             addSource(liveData1) { value = it to liveData2.value }

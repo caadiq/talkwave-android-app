@@ -15,4 +15,12 @@ class DataStoreRepository @Inject constructor(private val dataStore: DataStoreMo
     }
 
     fun getPassword() = dataStore.getPassword()
+
+    suspend fun clearUserId() {
+        dataStore.clearUserId()
+    }
+
+    suspend fun clearPassword() {
+        dataStore.clearPassword()
+    }
 }
