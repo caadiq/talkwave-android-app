@@ -8,6 +8,7 @@ import com.app.talkwave.databinding.ActivityMainBinding
 import com.app.talkwave.model.data.UserData
 import com.app.talkwave.model.service.StompClient
 import com.app.talkwave.viewmodel.ChatViewModel
+import com.app.talkwave.viewmodel.DeptViewModel
 import com.app.talkwave.viewmodel.MainFragmentType
 import com.app.talkwave.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     private val mainViewModel by viewModels<MainViewModel>()
+    private val deptViewModel by viewModels<DeptViewModel>()
     private val chatViewModel by viewModels<ChatViewModel>()
 
     private val stompClient = StompClient()
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         stompClient.connect()
+        deptViewModel.getDeptList()
         UserData.getUserId()?.let { chatViewModel.getRoomList(it) }
     }
 
