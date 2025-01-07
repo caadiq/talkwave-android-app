@@ -12,22 +12,6 @@
         android:layout_height="match_parent"
         android:background="@color/light_pastel_blue">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabScrollDown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/white"
-            android:contentDescription="아래로 스크롤"
-            android:src="@drawable/icon_down"
-            android:visibility="invisible"
-            app:elevation="2dp"
-            app:fabCustomSize="40dp"
-            app:layout_constraintBottom_toBottomOf="@+id/recyclerMessages"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:shapeAppearance="@style/Widget.Design.FloatingActionButton"
-            tools:visibility="visible" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutHeader"
             android:layout_width="0dp"
@@ -158,6 +142,61 @@
             app:stackFromEnd="true"
             tools:listitem="@layout/row_chat_message_you" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabScrollDown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/white"
+            android:contentDescription="아래로 스크롤"
+            android:src="@drawable/icon_down"
+            android:visibility="invisible"
+            app:elevation="2dp"
+            app:fabCustomSize="40dp"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerMessages"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:shapeAppearance="@style/Widget.Design.FloatingActionButton"
+            tools:visibility="visible" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutEmoticon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_translucent_rounded_12dp"
+            android:elevation="8dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerMessages"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgEmoticon"
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginVertical="24dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@mipmap/ic_launcher" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgClose"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:tint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/icon_x" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutFooter"
             android:layout_width="0dp"
@@ -191,8 +230,22 @@
                     android:textColor="@color/dark_gray"
                     android:textSize="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btnSend"
+                    app:layout_constraintEnd_toStartOf="@+id/btnEmoticon"
                     app:layout_constraintStart_toStartOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/btnEmoticon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="12dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/rectangle_white_rounded_12dp_ripple"
+                    android:padding="12dp"
+                    android:scaleType="fitCenter"
+                    android:tint="@color/dark_gray"
+                    app:layout_constraintBottom_toBottomOf="@+id/editMessage"
+                    app:layout_constraintEnd_toStartOf="@+id/btnSend"
+                    app:srcCompat="@drawable/icon_emoticon" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/btnSend"

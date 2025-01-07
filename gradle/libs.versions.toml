@@ -25,6 +25,7 @@ retrofit = "2.11.0"
 stommpProtocol = "1.6.6"
 rxJava = "2.2.19"
 rxAndroid = "2.1.1"
+glide = "4.16.0"
 
 [libraries]
 # 테스트
@@ -54,6 +55,7 @@ retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", ver
 stomp-protocol-android = { group = "com.github.NaikSoftware", name = "StompProtocolAndroid", version.ref = "stommpProtocol" }
 rx-java = { group = "io.reactivex.rxjava2", name = "rxjava", version.ref = "rxJava" }
 rx-android = { group = "io.reactivex.rxjava2", name = "rxandroid", version.ref = "rxAndroid" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 
 
 [plugins]

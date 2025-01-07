@@ -45,21 +45,51 @@
         app:layout_constraintTop_toTopOf="@+id/imgProfile"
         tools:text="이름" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/txtMessage"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/rectangle_white_topleft_topright_bottomright_rounded_12dp"
-        android:lineSpacingExtra="8dp"
-        android:maxWidth="280dp"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="12dp"
-        android:textColor="@color/dark_gray"
-        android:textSize="16dp"
         app:layout_constraintStart_toStartOf="@+id/txtName"
-        app:layout_constraintTop_toBottomOf="@+id/txtName"
-        tools:text="감자탕 드시러 가실?" />
+        app:layout_constraintTop_toBottomOf="@+id/txtName">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgEmoticon"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_margin="8dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/txtMessage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/ic_launcher"
+            tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:lineSpacingExtra="8dp"
+            android:maxWidth="280dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp"
+            android:textColor="@color/dark_gray"
+            android:textSize="16dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgEmoticon"
+            tools:text="감자탕 드시러 가실? 감자탕 드시러 가실? 감자탕 드시러 가실?"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txtDate"
@@ -70,8 +100,8 @@
         android:textColor="@color/steel_gray"
         android:textSize="14dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/txtMessage"
-        app:layout_constraintTop_toBottomOf="@+id/txtMessage"
+        app:layout_constraintStart_toStartOf="@+id/layoutMessage"
+        app:layout_constraintTop_toBottomOf="@+id/layoutMessage"
         tools:text="오전 9:43" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

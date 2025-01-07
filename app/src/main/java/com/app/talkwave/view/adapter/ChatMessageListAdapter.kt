@@ -16,6 +16,7 @@ import com.app.talkwave.databinding.RowChatMessageYouBinding
 import com.app.talkwave.model.dto.ChatMessageReceiveDto
 import com.app.talkwave.view.diff.ChatMessageListDiffUtil
 import com.app.talkwave.view.utils.DateTimeConverter.convertDateTime
+import com.bumptech.glide.Glide
 
 class ChatMessageListAdapter(private val context: Context, private val userId: String?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var itemList = mutableListOf<ChatMessageReceiveDto>()
@@ -51,7 +52,12 @@ class ChatMessageListAdapter(private val context: Context, private val userId: S
 
     inner class MeViewHolder(private val binding: RowChatMessageMeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ChatMessageReceiveDto, query: String?, isCurrentSearchPosition: Boolean) {
-            binding.txtMessage.text = highlightQuery(item.message, query)
+            Glide.with(binding.root).load(item.emojiUrl).into(binding.imgEmoticon)
+            binding.imgEmoticon.visibility = if (item.emojiUrl.isNullOrEmpty()) View.GONE else View.VISIBLE
+            binding.txtMessage.apply {
+                text = highlightQuery(item.message, query)
+                visibility = if (item.message.isEmpty()) View.GONE else View.VISIBLE
+            }
             binding.txtDate.text = convertDateTime(item.sendDate, "a h:mm")
             binding.txtFirstMessage.apply {
                 visibility = if (item.isFirstMessage) View.VISIBLE else View.GONE
@@ -65,8 +71,13 @@ class ChatMessageListAdapter(private val context: Context, private val userId: S
 
     inner class YouViewHolder(private val binding: RowChatMessageYouBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ChatMessageReceiveDto, query: String?, isCurrentSearchPosition: Boolean) {
+            Glide.with(binding.root).load(item.emojiUrl).into(binding.imgEmoticon)
+            binding.imgEmoticon.visibility = if (item.emojiUrl.isNullOrEmpty()) View.GONE else View.VISIBLE
             binding.txtName.text = item.userName
-            binding.txtMessage.text = highlightQuery(item.message, query)
+            binding.txtMessage.apply {
+                text = highlightQuery(item.message, query)
+                visibility = if (item.message.isEmpty()) View.GONE else View.VISIBLE
+            }
             binding.txtDate.text = convertDateTime(item.sendDate, "a h:mm")
             binding.txtFirstMessage.apply {
                 visibility = if (item.isFirstMessage) View.VISIBLE else View.GONE

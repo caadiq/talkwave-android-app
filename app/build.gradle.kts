@@ -83,4 +83,5 @@ dependencies {
     implementation(libs.stomp.protocol.android)
     implementation(libs.rx.java)
     implementation(libs.rx.android)
+    implementation(libs.glide)
 }

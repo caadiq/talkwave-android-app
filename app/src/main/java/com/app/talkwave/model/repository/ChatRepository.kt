@@ -5,6 +5,7 @@ import com.app.talkwave.model.dto.ChatRoomAddDto
 import com.app.talkwave.model.dto.ChatRoomListDto
 import com.app.talkwave.model.dto.ChatRoomDto
 import com.app.talkwave.model.dto.ChatRoomLeaveDto
+import com.app.talkwave.model.dto.EmoticonListDto
 import com.app.talkwave.model.utils.RetrofitUtil
 import retrofit2.Retrofit
 import javax.inject.Inject
@@ -26,5 +27,9 @@ class ChatRepository @Inject constructor(retrofit: Retrofit)  {
 
     suspend fun leaveChatRoom(dto: ChatRoomLeaveDto): RetrofitUtil.Results<Unit> {
         return RetrofitUtil.call(api.leaveChatRoom(dto))
+    }
+
+    suspend fun getEmojiList(): RetrofitUtil.Results<List<EmoticonListDto>> {
+        return RetrofitUtil.call(api.getEmojiList())
     }
 }

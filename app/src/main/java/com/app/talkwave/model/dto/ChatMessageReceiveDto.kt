@@ -5,5 +5,6 @@ data class ChatMessageReceiveDto(
     val userName: String,
     val message: String,
     val sendDate: String,
+    val emojiUrl: String?,
     var isFirstMessage: Boolean = false
 )

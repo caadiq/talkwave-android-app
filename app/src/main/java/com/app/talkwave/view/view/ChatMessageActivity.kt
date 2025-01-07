@@ -18,6 +18,7 @@ import com.app.talkwave.view.adapter.ChatMessageListAdapter
 import com.app.talkwave.view.adapter.MemberListAdapter
 import com.app.talkwave.view.utils.DateTimeConverter.convertDateTime
 import com.app.talkwave.viewmodel.ChatViewModel
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,6 +37,7 @@ class ChatMessageActivity : AppCompatActivity() {
     private var searchResults = mutableListOf<Int>()
     private var currentSearchIndex = 0
     private var isAtBottom = true
+    private var selectedEmoticon: Int? = null
 
     private val roomId by lazy { intent.getIntExtra("roomId", 0) }
 
@@ -151,7 +153,8 @@ class ChatMessageActivity : AppCompatActivity() {
         binding.btnSend.setOnClickListener {
             val message = binding.editMessage.text.toString()
 
-            if (message.trim().isEmpty()) {
+            if (message.trim().isEmpty() && selectedEmoticon == null) {
+                Toast.makeText(this, "메시지를 입력해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -160,15 +163,29 @@ class ChatMessageActivity : AppCompatActivity() {
                     ChatMessageSendDto(
                         roomId = roomId,
                         userId = it,
-                        message = message
+                        message = message,
+                        emojiId = selectedEmoticon
                     )
                 )
             }
             binding.editMessage.text?.clear()
+            binding.layoutEmoticon.visibility = View.GONE
+            Glide.with(this).clear(binding.imgEmoticon)
+            selectedEmoticon = null
         }
 
         binding.fabScrollDown.setOnClickListener {
             binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
+        }
+
+        binding.btnEmoticon.setOnClickListener {
+            chatViewModel.getEmojiList()
+        }
+
+        binding.imgClose.setOnClickListener {
+            binding.layoutEmoticon.visibility = View.GONE
+            Glide.with(this).clear(binding.imgEmoticon)
+            selectedEmoticon = null
         }
     }
 
@@ -225,6 +242,17 @@ class ChatMessageActivity : AppCompatActivity() {
                         binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
                     }
                 }
+            }
+
+            emojiList.observe(this@ChatMessageActivity) { list ->
+                EmoticonBottomSheetDialog(
+                    list = list,
+                    onItemClick = { item ->
+                        selectedEmoticon = item.id
+                        Glide.with(this@ChatMessageActivity).load(item.url).into(binding.imgEmoticon)
+                        binding.layoutEmoticon.visibility = View.VISIBLE
+                    }
+                ).show(supportFragmentManager, "DeptBottomSheetDialog")
             }
 
             leaveChatRoom.observe(this@ChatMessageActivity) {

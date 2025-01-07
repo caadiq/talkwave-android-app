@@ -5,6 +5,7 @@ import com.app.talkwave.model.dto.ChatMessageReceiveDto
 import com.app.talkwave.model.dto.ChatRoomAddDto
 import com.app.talkwave.model.dto.ChatRoomLeaveDto
 import com.app.talkwave.model.dto.ChatRoomListDto
+import com.app.talkwave.model.dto.EmoticonListDto
 import com.app.talkwave.model.dto.MemberListDto
 import com.app.talkwave.model.repository.ChatRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +30,9 @@ class ChatViewModel @Inject constructor(private val repository: ChatRepository) 
 
     private val _addChatRoom = MutableLiveData<Unit>()
     val addChatRoom: MutableLiveData<Unit> = _addChatRoom
+
+    private val _emojiList = MutableLiveData<List<EmoticonListDto>>()
+    val emojiList: MutableLiveData<List<EmoticonListDto>> = _emojiList
 
     fun getRoomList(userId: String) {
         execute(
@@ -64,6 +68,13 @@ class ChatViewModel @Inject constructor(private val repository: ChatRepository) 
         execute(
             call = { repository.addChatRoom(dto) },
             onSuccess = { _addChatRoom.postValue(it) }
+        )
+    }
+
+    fun getEmojiList() {
+        execute(
+            call = { repository.getEmojiList() },
+            onSuccess = { _emojiList.postValue(it) }
         )
     }
 }

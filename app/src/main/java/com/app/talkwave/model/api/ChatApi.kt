@@ -4,6 +4,7 @@ import com.app.talkwave.model.dto.ChatRoomAddDto
 import com.app.talkwave.model.dto.ChatRoomListDto
 import com.app.talkwave.model.dto.ChatRoomDto
 import com.app.talkwave.model.dto.ChatRoomLeaveDto
+import com.app.talkwave.model.dto.EmoticonListDto
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -24,4 +25,7 @@ interface ChatApi {
 
     @POST("/api/talkwave/chat/rooms/leave")
     fun leaveChatRoom(@Body dto: ChatRoomLeaveDto): Call<Unit>
+
+    @GET("/api/talkwave/chat/emoji")
+    fun getEmojiList(): Call<List<EmoticonListDto>>
 }
