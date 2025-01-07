@@ -64,6 +64,10 @@ class AddChatRoomActivity : AppCompatActivity(), AddChatDeptListAdapter.OnItemCl
     }
 
     private fun setupView() {
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+
         binding.txtConfirm.setOnClickListener {
             val roomName = binding.editRoomName.text?.trim().toString()
 
