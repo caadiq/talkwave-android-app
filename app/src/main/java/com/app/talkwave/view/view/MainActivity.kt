@@ -5,10 +5,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.app.talkwave.R
 import com.app.talkwave.databinding.ActivityMainBinding
-import com.app.talkwave.model.data.UserData
-import com.app.talkwave.model.service.StompClient
-import com.app.talkwave.viewmodel.ChatViewModel
-import com.app.talkwave.viewmodel.DeptViewModel
 import com.app.talkwave.viewmodel.MainFragmentType
 import com.app.talkwave.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,10 +14,6 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
     private val mainViewModel by viewModels<MainViewModel>()
-    private val deptViewModel by viewModels<DeptViewModel>()
-    private val chatViewModel by viewModels<ChatViewModel>()
-
-    private val stompClient = StompClient()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,23 +24,6 @@ class MainActivity : AppCompatActivity() {
         }
         setupBottomNavigation()
         setupViewModel()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        stompClient.disconnect()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        stompClient.disconnect()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        stompClient.connect()
-        deptViewModel.getDeptList()
-        UserData.getUserId()?.let { chatViewModel.getRoomList(it) }
     }
 
     private fun setupFragment() {
@@ -100,14 +75,6 @@ class MainActivity : AppCompatActivity() {
                 MainFragmentType.PROFILE -> R.id.profile
                 MainFragmentType.SETTINGS -> R.id.settings
                 else -> R.id.home
-            }
-        }
-
-        chatViewModel.roomList.observe(this) { list ->
-            list.forEach {
-                stompClient.subscribe(it.roomId) {
-                    UserData.getUserId()?.let { chatViewModel.getRoomList(it) }
-                }
             }
         }
     }

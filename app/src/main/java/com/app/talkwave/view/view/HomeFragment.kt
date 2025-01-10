@@ -48,8 +48,10 @@ class HomeFragment : Fragment() {
 
     private fun setupViewModel() {
         deptViewModel.apply {
+            getDeptList()
+
             deptList.observe(viewLifecycleOwner) { list ->
-                homeDeptListAdapter.setItemList(list)
+                homeDeptListAdapter.setItemList(list.filter { it.userInfoList.isNotEmpty() })
             }
         }
     }

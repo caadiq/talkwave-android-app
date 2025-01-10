@@ -15,7 +15,10 @@ class StompClient {
     private val baseUrl = BuildConfig.BASE_URL
     private val wsUrl = "${baseUrl.replace("http", "ws")}/api/talkwave/ws-stomp"
 
-    private val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, wsUrl)
+    private val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, wsUrl).apply {
+        withClientHeartbeat(10000)
+        withServerHeartbeat(10000)
+    }
 
     private var disposable: Disposable? = null
     private var topicDisposable: Disposable? = null

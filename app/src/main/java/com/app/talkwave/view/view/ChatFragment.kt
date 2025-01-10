@@ -11,6 +11,12 @@ import com.app.talkwave.databinding.FragmentChatBinding
 import com.app.talkwave.model.data.UserData
 import com.app.talkwave.view.adapter.ChatRoomListAdapter
 import com.app.talkwave.viewmodel.ChatViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 class ChatFragment : Fragment() {
     private var _binding: FragmentChatBinding? = null
@@ -19,6 +25,8 @@ class ChatFragment : Fragment() {
     private val chatViewModel by activityViewModels<ChatViewModel>()
 
     private val chatRoomListAdapter = ChatRoomListAdapter()
+
+    private var roomJob: Job? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentChatBinding.inflate(inflater, container, false)
@@ -41,7 +49,9 @@ class ChatFragment : Fragment() {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (!hidden) {
-            UserData.getUserId()?.let { chatViewModel.getRoomList(it) }
+            startRoomJob()
+        } else {
+            stopRoomJob()
         }
     }
 
@@ -67,9 +77,25 @@ class ChatFragment : Fragment() {
 
     private fun setupViewModel() {
         chatViewModel.apply {
+            UserData.getUserId()?.let { getRoomList(it) }
+
             roomList.observe(viewLifecycleOwner) { list ->
                 chatRoomListAdapter.setItemList(list)
             }
         }
+    }
+
+    private fun startRoomJob() {
+        roomJob = CoroutineScope(Dispatchers.Main).launch {
+            while (isActive) {
+                UserData.getUserId()?.let { chatViewModel.getRoomList(it) }
+                delay(1000)
+            }
+        }
+    }
+
+    private fun stopRoomJob() {
+        roomJob?.cancel()
+        roomJob = null
     }
 }
