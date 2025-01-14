@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.app.talkwave.databinding.ActivityChatMessageBinding
 import com.app.talkwave.model.data.UserData
@@ -17,6 +18,8 @@ import com.app.talkwave.model.service.StompClient
 import com.app.talkwave.view.adapter.ChatMessageListAdapter
 import com.app.talkwave.view.adapter.MemberListAdapter
 import com.app.talkwave.view.utils.DateTimeConverter.convertDateTime
+import com.app.talkwave.view.utils.InsetsWithKeyboardAnimationCallback
+import com.app.talkwave.view.utils.InsetsWithKeyboardCallback
 import com.app.talkwave.viewmodel.ChatViewModel
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,6 +56,7 @@ class ChatMessageActivity : AppCompatActivity() {
 
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
 
+        setupKeyboard()
         setupView()
         setupRecyclerView()
         setupViewModel()
@@ -80,6 +84,20 @@ class ChatMessageActivity : AppCompatActivity() {
             subscribe(roomId) { chat ->
                 chatViewModel.addMessage(chat)
             }
+        }
+    }
+
+    private fun setupKeyboard() {
+        val insetsWithKeyboardCallback = InsetsWithKeyboardCallback(window)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.layoutParent, insetsWithKeyboardCallback)
+        ViewCompat.setWindowInsetsAnimationCallback(binding.layoutParent, insetsWithKeyboardCallback)
+
+        listOf(
+            binding.recyclerMessages,
+            binding.layoutFooter
+        ).forEach { view ->
+            val callback = InsetsWithKeyboardAnimationCallback(view)
+            ViewCompat.setWindowInsetsAnimationCallback(view, callback)
         }
     }
 
