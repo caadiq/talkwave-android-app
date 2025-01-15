@@ -109,7 +109,7 @@ class AddChatRoomActivity : AppCompatActivity(), AddChatDeptListAdapter.OnItemCl
 
             deptList.observe(this@AddChatRoomActivity) { list ->
                 val myId = UserData.getUserId()
-                val filteredList = list.map { dept ->
+                val filteredList = list.filter { it.userInfoList.isNotEmpty() }.map { dept ->
                     dept.copy(userInfoList = dept.userInfoList.filter { it.userId != myId })
                 }
                 addChatDeptListAdapter.setItemList(filteredList)

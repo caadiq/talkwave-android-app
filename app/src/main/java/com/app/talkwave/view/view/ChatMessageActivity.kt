@@ -88,9 +88,13 @@ class ChatMessageActivity : AppCompatActivity() {
     }
 
     private fun setupKeyboard() {
-        val insetsWithKeyboardCallback = InsetsWithKeyboardCallback(window)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.layoutParent, insetsWithKeyboardCallback)
-        ViewCompat.setWindowInsetsAnimationCallback(binding.layoutParent, insetsWithKeyboardCallback)
+        val insetsWithKeyboardCallback1 = InsetsWithKeyboardCallback(window)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.layoutParent, insetsWithKeyboardCallback1)
+        ViewCompat.setWindowInsetsAnimationCallback(binding.layoutParent, insetsWithKeyboardCallback1)
+
+        val insetsWithKeyboardCallback2 = InsetsWithKeyboardCallback(window)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.navigationView, insetsWithKeyboardCallback2)
+        ViewCompat.setWindowInsetsAnimationCallback(binding.navigationView, insetsWithKeyboardCallback2)
 
         listOf(
             binding.recyclerMessages,
