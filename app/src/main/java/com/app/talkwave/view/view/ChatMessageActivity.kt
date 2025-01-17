@@ -277,12 +277,15 @@ class ChatMessageActivity : AppCompatActivity() {
                         }
                     }
                     chatMessageListAdapter.setItemList(list)
+
                     val lastMessage = list.last()
                     binding.txtLMName.text = lastMessage.userName
                     binding.txtLMMessage.text = lastMessage.message
                     if (isAtBottom) {
                         binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
                         binding.layoutLastMessage.visibility = View.GONE
+                    } else if (lastMessage.userId == UserData.getUserId()) {
+                        binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
                     } else {
                         if (lastMessage.userId != UserData.getUserId())
                             startMessageAnimation()
