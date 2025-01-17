@@ -253,7 +253,7 @@
                     android:layout_height="48dp"
                     android:layout_marginEnd="12dp"
                     android:adjustViewBounds="true"
-                    android:background="@drawable/rectangle_primary_rounded_12dp_ripple"
+                    android:background="@drawable/button_chat_send"
                     android:padding="16dp"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="@+id/editMessage"

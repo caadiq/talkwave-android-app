@@ -9,6 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.app.talkwave.databinding.ActivityChatMessageBinding
 import com.app.talkwave.model.data.UserData
@@ -98,7 +99,8 @@ class ChatMessageActivity : AppCompatActivity() {
 
         listOf(
             binding.recyclerMessages,
-            binding.layoutFooter
+            binding.layoutFooter,
+            binding.btnExit
         ).forEach { view ->
             val callback = InsetsWithKeyboardAnimationCallback(view)
             ViewCompat.setWindowInsetsAnimationCallback(view, callback)
@@ -172,11 +174,15 @@ class ChatMessageActivity : AppCompatActivity() {
             ).show(supportFragmentManager, "DefaultDialog")
         }
 
+        binding.editMessage.addTextChangedListener {
+            binding.btnSend.isEnabled = it.toString().trim().isNotEmpty() || selectedEmoticon != null
+        }
+
+        binding.btnSend.isEnabled = false
         binding.btnSend.setOnClickListener {
             val message = binding.editMessage.text.toString()
 
             if (message.trim().isEmpty() && selectedEmoticon == null) {
-                Toast.makeText(this, "메시지를 입력해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
