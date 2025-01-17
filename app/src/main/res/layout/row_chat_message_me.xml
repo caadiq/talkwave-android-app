@@ -40,6 +40,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:autoLink="all"
+        android:textColorLink="@color/yellow"
         android:background="@drawable/rectangle_primary_topleft_topright_bottomleft_rounded_12dp"
         android:lineSpacingExtra="8dp"
         android:maxWidth="280dp"
@@ -51,7 +53,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgEmoticon"
         app:layout_goneMarginTop="16dp"
-        tools:text="감자탕 드시러 가실? 감자탕 드시러 가실? 감자탕 드시러 가실?"
+        tools:text="감자탕 드시러 가실? 감자탕 드시러 가실? 감자탕 드시러 가실? http://google.com"
         tools:visibility="visible" />
 
     <androidx.appcompat.widget.AppCompatTextView
