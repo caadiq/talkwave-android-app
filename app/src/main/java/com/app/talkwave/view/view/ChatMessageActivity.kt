@@ -2,6 +2,7 @@ package com.app.talkwave.view.view
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
+import com.app.talkwave.R
 import com.app.talkwave.databinding.ActivityChatMessageBinding
 import com.app.talkwave.model.data.UserData
 import com.app.talkwave.model.dto.ChatMessageSendDto
@@ -100,6 +102,7 @@ class ChatMessageActivity : AppCompatActivity() {
         listOf(
             binding.recyclerMessages,
             binding.layoutFooter,
+            binding.layoutEmoticon,
             binding.btnExit
         ).forEach { view ->
             val callback = InsetsWithKeyboardAnimationCallback(view)
@@ -174,8 +177,12 @@ class ChatMessageActivity : AppCompatActivity() {
             ).show(supportFragmentManager, "DefaultDialog")
         }
 
+        binding.layoutLastMessage.setOnClickListener {
+            binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
+        }
+
         binding.editMessage.addTextChangedListener {
-            binding.btnSend.isEnabled = it.toString().trim().isNotEmpty() || selectedEmoticon != null
+            updateSendButton()
         }
 
         binding.btnSend.isEnabled = false
@@ -214,6 +221,7 @@ class ChatMessageActivity : AppCompatActivity() {
             binding.layoutEmoticon.visibility = View.GONE
             Glide.with(this).clear(binding.imgEmoticon)
             selectedEmoticon = null
+            updateSendButton()
         }
     }
 
@@ -228,10 +236,13 @@ class ChatMessageActivity : AppCompatActivity() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     isAtBottom = !recyclerView.canScrollVertically(1)
-                    if (recyclerView.canScrollVertically(1))
+                    if (recyclerView.canScrollVertically(1)) {
                         binding.fabScrollDown.show()
-                    else
+                    } else {
                         binding.fabScrollDown.hide()
+                        if (binding.layoutLastMessage.isShown)
+                            endMessageAnimation()
+                    }
                 }
             })
         }
@@ -266,8 +277,15 @@ class ChatMessageActivity : AppCompatActivity() {
                         }
                     }
                     chatMessageListAdapter.setItemList(list)
+                    val lastMessage = list.last()
+                    binding.txtLMName.text = lastMessage.userName
+                    binding.txtLMMessage.text = lastMessage.message
                     if (isAtBottom) {
                         binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
+                        binding.layoutLastMessage.visibility = View.GONE
+                    } else {
+                        if (lastMessage.userId != UserData.getUserId())
+                            startMessageAnimation()
                     }
                 }
             }
@@ -279,6 +297,7 @@ class ChatMessageActivity : AppCompatActivity() {
                         selectedEmoticon = item.id
                         Glide.with(this@ChatMessageActivity).load(item.url).into(binding.imgEmoticon)
                         binding.layoutEmoticon.visibility = View.VISIBLE
+                        updateSendButton()
                     }
                 ).show(supportFragmentManager, "DeptBottomSheetDialog")
             }
@@ -348,5 +367,21 @@ class ChatMessageActivity : AppCompatActivity() {
             isEnabled = currentSearchIndex < searchResults.size - 1
             alpha = if (currentSearchIndex < searchResults.size - 1) 1.0f else 0.5f
         }
+    }
+
+    private fun updateSendButton() {
+        binding.btnSend.isEnabled = binding.editMessage.text.toString().trim().isNotEmpty() || selectedEmoticon != null
+    }
+
+    private fun startMessageAnimation() {
+        val fadeIn = AnimationUtils.loadAnimation(this@ChatMessageActivity, R.anim.fade_in)
+        binding.layoutLastMessage.startAnimation(fadeIn)
+        binding.layoutLastMessage.visibility = View.VISIBLE
+    }
+
+    private fun endMessageAnimation() {
+        val fadeOut = AnimationUtils.loadAnimation(this@ChatMessageActivity, R.anim.fade_out)
+        binding.layoutLastMessage.startAnimation(fadeOut)
+        binding.layoutLastMessage.visibility = View.GONE
     }
 }
