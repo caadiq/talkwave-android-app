@@ -207,6 +207,7 @@ class ChatMessageActivity : AppCompatActivity() {
             binding.layoutEmoticon.visibility = View.GONE
             Glide.with(this).clear(binding.imgEmoticon)
             selectedEmoticon = null
+            updateSendButton()
         }
 
         binding.fabScrollDown.setOnClickListener {
@@ -280,7 +281,8 @@ class ChatMessageActivity : AppCompatActivity() {
 
                     val lastMessage = list.last()
                     binding.txtLMName.text = lastMessage.userName
-                    binding.txtLMMessage.text = lastMessage.message
+                    binding.txtLMMessage.text = if (lastMessage.message.isEmpty() && !lastMessage.emojiUrl.isNullOrEmpty()) "이모티콘" else lastMessage.message
+
                     if (isAtBottom) {
                         binding.recyclerMessages.scrollToPosition(chatMessageListAdapter.itemCount - 1)
                         binding.layoutLastMessage.visibility = View.GONE
